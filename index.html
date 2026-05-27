@@ -1,258 +1,421 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Jawa Hair Studio — Kroya, Cilacap</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --white:#FFFFFF;--off-white:#F0F0F0;--silver:#A8A8A8;--mid-gray:#555555;
-      --dark-gray:#1C1C1C;--near-black:#0E0E0E;--black:#000000;--accent:#FFFFFF;
+    :root{
+      --white:#FFF;--off-white:#F2F2F2;--silver:#A0A0A0;--mid:#4A4A4A;
+      --dark:#1A1A1A;--nb:#0C0C0C;--black:#000;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
     body{background:var(--black);color:var(--off-white);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
     body.loading{overflow:hidden;}
-    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.3;}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.25;}
 
-    /* ── LOADER ── */
+    /* ════════════════════ LOADER ════════════════════ */
     #loader{
-      position:fixed;inset:0;z-index:99999;
-      background:#000;
-      display:flex;flex-direction:column;align-items:center;justify-content:center;
-      gap:1.5rem;
-      transition:opacity .8s ease, visibility .8s ease;
+      position:fixed;inset:0;z-index:100000;
+      background:#000;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;gap:2rem;
+      transition:opacity 1s ease,visibility 1s ease;
     }
-    #loader.hidden{opacity:0;visibility:hidden;}
-    .loader-logo{
-      font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,8vw,5rem);
-      letter-spacing:.25em;color:var(--white);
-      animation:loaderPulse 1.5s ease-in-out infinite;
+    #loader.out{opacity:0;visibility:hidden;}
+
+    .loader-ring{
+      position:relative;width:110px;height:110px;
     }
-    .loader-sub{
-      font-family:'Cormorant Garamond',serif;font-style:italic;
-      font-size:1rem;color:var(--silver);letter-spacing:.2em;
-      animation:loaderPulse 1.5s ease-in-out infinite .2s;
+    .loader-ring svg{
+      width:110px;height:110px;
+      animation:ringRotate 2.2s linear infinite;
     }
-    .loader-bar{
-      width:180px;height:1px;background:rgba(255,255,255,.1);
+    .loader-ring circle{
+      fill:none;stroke:rgba(255,255,255,.12);stroke-width:1;
+    }
+    .loader-ring .arc{
+      fill:none;stroke:rgba(255,255,255,.9);stroke-width:1;
+      stroke-dasharray:60 220;
+      stroke-linecap:round;
+    }
+    @keyframes ringRotate{to{transform:rotate(360deg);transform-origin:center;}}
+
+    .loader-inner{
+      position:absolute;inset:0;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+    }
+    .loader-scissors-anim{
+      font-size:1.6rem;
+      animation:scissorSnip .9s ease-in-out infinite alternate;
+    }
+    @keyframes scissorSnip{0%{transform:rotate(-15deg) scale(.9);}100%{transform:rotate(15deg) scale(1.05);}}
+
+    .loader-wordmark{
+      font-family:'Bebas Neue',sans-serif;
+      font-size:clamp(2.8rem,9vw,5.5rem);
+      letter-spacing:.22em;color:var(--white);
+      line-height:1;
+    }
+    .loader-city{
+      font-family:'Cormorant Garamond',serif;
+      font-style:italic;font-size:.95rem;
+      letter-spacing:.28em;color:var(--silver);
+    }
+    .loader-progress{
+      width:200px;height:1px;background:rgba(255,255,255,.08);
       position:relative;overflow:hidden;
     }
-    .loader-bar::after{
-      content:'';position:absolute;left:-100%;top:0;width:100%;height:100%;
-      background:linear-gradient(to right,transparent,var(--white),transparent);
-      animation:loaderBar 1.4s ease infinite;
+    .loader-fill{
+      position:absolute;left:0;top:0;height:100%;width:0;
+      background:var(--white);
+      transition:width 1.6s cubic-bezier(.4,0,.2,1);
     }
-    .loader-scissors{
-      font-size:2rem;
-      animation:spin 2s linear infinite;
-    }
-    @keyframes loaderPulse{0%,100%{opacity:.5;}50%{opacity:1;}}
-    @keyframes loaderBar{0%{left:-100%;}100%{left:100%;}}
-    @keyframes spin{from{transform:rotate(0);}to{transform:rotate(360deg);}}
 
-    /* ── NAV ── */
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 3rem;background:linear-gradient(to bottom,rgba(0,0,0,.95),transparent);backdrop-filter:blur(3px);}
-    .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.18em;color:var(--white);}
-    .nav-links{display:flex;gap:2.5rem;list-style:none;}
-    .nav-links a{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--silver);text-decoration:none;transition:color .2s;}
+    /* ════════════════════ NAV ════════════════════ */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:500;
+      display:flex;justify-content:space-between;align-items:center;
+      padding:1.3rem 3rem;
+      background:linear-gradient(to bottom,rgba(0,0,0,.96),transparent);
+      backdrop-filter:blur(4px);
+      transition:background .3s;
+    }
+    nav.solid{background:rgba(0,0,0,.97);}
+    .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.45rem;letter-spacing:.2em;color:var(--white);}
+    .nav-links{display:flex;gap:2.4rem;list-style:none;}
+    .nav-links a{
+      font-size:.73rem;letter-spacing:.2em;text-transform:uppercase;
+      color:var(--silver);text-decoration:none;
+      position:relative;padding-bottom:2px;
+      transition:color .2s;
+    }
+    .nav-links a::after{
+      content:'';position:absolute;bottom:0;left:0;width:0;height:1px;
+      background:var(--white);transition:width .3s;
+    }
     .nav-links a:hover{color:var(--white);}
-    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:.3rem;}
-    .nav-hamburger span{display:block;width:22px;height:1px;background:var(--silver);transition:.3s;}
+    .nav-links a:hover::after{width:100%;}
+    .nav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:.3rem;}
+    .nav-ham span{display:block;width:22px;height:1px;background:var(--silver);transition:.3s;}
 
-    /* ── HERO ── */
-    #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;padding:8rem 2rem 4rem;overflow:hidden;}
-    .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 55% 50% at 50% 38%,rgba(255,255,255,.05) 0%,transparent 70%),var(--black);}
-    .hero-lines{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:680px;height:680px;border:1px solid rgba(255,255,255,.06);border-radius:50%;animation:pulse-ring 7s ease-in-out infinite;}
-    .hero-lines::before{content:'';position:absolute;inset:48px;border:1px solid rgba(255,255,255,.04);border-radius:50%;}
-    @keyframes pulse-ring{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1;}50%{transform:translate(-50%,-50%) scale(1.05);opacity:.5;}}
-    .hero-badge{position:relative;font-size:.7rem;letter-spacing:.32em;text-transform:uppercase;color:var(--silver);margin-bottom:1.5rem;display:flex;align-items:center;gap:.9rem;animation:fadeUp .8s ease both;}
-    .hero-badge::before,.hero-badge::after{content:'';width:36px;height:1px;background:var(--silver);opacity:.5;}
-    .hero-title{position:relative;font-family:'Playfair Display',serif;font-size:clamp(3.8rem,10vw,8rem);font-weight:900;line-height:.95;letter-spacing:-.02em;animation:fadeUp .9s .15s ease both;}
-    .hero-title span{display:block;font-style:italic;color:var(--white);}
-    .hero-sub{position:relative;font-family:'Cormorant Garamond',serif;font-size:clamp(.95rem,2vw,1.25rem);font-weight:300;font-style:italic;color:var(--silver);margin-top:1.3rem;letter-spacing:.05em;animation:fadeUp .9s .3s ease both;}
-    .hero-cta{position:relative;margin-top:3rem;display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;animation:fadeUp .9s .45s ease both;}
-    .btn-primary{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 2.3rem;background:var(--white);color:var(--black);font-size:.8rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:background .2s,transform .2s;}
-    .btn-primary:hover{background:var(--off-white);transform:translateY(-2px);}
-    .btn-secondary{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 2.3rem;background:transparent;color:var(--white);font-size:.8rem;font-weight:400;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(255,255,255,.3);cursor:pointer;transition:border-color .2s,transform .2s;}
-    .btn-secondary:hover{border-color:var(--white);transform:translateY(-2px);}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+    /* ════════════════════ HERO ════════════════════ */
+    #hero{
+      min-height:100vh;display:flex;flex-direction:column;
+      justify-content:center;align-items:center;text-align:center;
+      position:relative;padding:9rem 2rem 5rem;overflow:hidden;
+    }
+    .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 55% at 50% 40%,rgba(255,255,255,.04) 0%,transparent 70%),#000;}
+    .ring1,.ring2,.ring3{
+      position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid rgba(255,255,255,.05);
+      transform:translate(-50%,-50%);
+    }
+    .ring1{width:700px;height:700px;animation:pr 8s ease-in-out infinite;}
+    .ring2{width:500px;height:500px;animation:pr 8s ease-in-out infinite .5s;}
+    .ring3{width:300px;height:300px;animation:pr 8s ease-in-out infinite 1s;}
+    @keyframes pr{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1;}50%{transform:translate(-50%,-50%) scale(1.04);opacity:.4;}}
+
+    .hero-badge{
+      position:relative;z-index:1;
+      font-size:.68rem;letter-spacing:.35em;text-transform:uppercase;
+      color:var(--silver);margin-bottom:1.6rem;
+      display:flex;align-items:center;gap:1rem;
+      animation:fu .8s ease both;
+    }
+    .hero-badge::before,.hero-badge::after{content:'';width:40px;height:1px;background:rgba(255,255,255,.3);}
+    .hero-title{
+      position:relative;z-index:1;
+      font-family:'Playfair Display',serif;
+      font-size:clamp(4rem,11vw,9rem);
+      font-weight:900;line-height:.9;letter-spacing:-.02em;
+      animation:fu .9s .12s ease both;
+    }
+    .hero-title span{display:block;font-style:italic;}
+    .hero-sub{
+      position:relative;z-index:1;
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(1rem,2.2vw,1.35rem);
+      font-weight:300;font-style:italic;color:var(--silver);
+      margin-top:1.4rem;letter-spacing:.06em;
+      animation:fu .9s .25s ease both;
+    }
+    .hero-cta{
+      position:relative;z-index:1;margin-top:3rem;
+      display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;
+      animation:fu .9s .4s ease both;
+    }
+    .btn-p{
+      display:inline-flex;align-items:center;gap:.7rem;
+      padding:1rem 2.6rem;background:var(--white);color:var(--black);
+      font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+      text-decoration:none;border:none;cursor:pointer;
+      transition:background .2s,transform .2s,box-shadow .2s;
+    }
+    .btn-p:hover{background:var(--off-white);transform:translateY(-3px);box-shadow:0 8px 30px rgba(255,255,255,.15);}
+    .btn-s{
+      display:inline-flex;align-items:center;gap:.7rem;
+      padding:1rem 2.6rem;background:transparent;color:var(--white);
+      font-size:.78rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase;
+      text-decoration:none;border:1px solid rgba(255,255,255,.25);cursor:pointer;
+      transition:border-color .2s,transform .2s,background .2s;
+    }
+    .btn-s:hover{border-color:var(--white);transform:translateY(-3px);background:rgba(255,255,255,.04);}
+    @keyframes fu{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
 
     .divider{display:flex;align-items:center;gap:1.2rem;justify-content:center;margin:0 auto 4rem;}
-    .divider-line{height:1px;width:80px;background:var(--mid-gray);}
-    .divider-icon{color:var(--silver);font-size:1rem;}
+    .divider-line{height:1px;width:80px;background:var(--mid);}
+    .divider-dot{color:var(--silver);font-size:.9rem;}
 
     section{padding:6rem 2rem;}
-    .section-label{text-align:center;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--silver);margin-bottom:.7rem;}
-    .section-title{text-align:center;font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:700;margin-bottom:1rem;line-height:1.15;color:var(--white);}
-    .section-sub{text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;font-style:italic;color:var(--silver);margin-bottom:3.5rem;}
+    .sec-label{text-align:center;font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;color:var(--silver);margin-bottom:.7rem;}
+    .sec-title{text-align:center;font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3.4rem);font-weight:700;margin-bottom:1rem;line-height:1.1;color:var(--white);}
+    .sec-sub{text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:300;font-style:italic;color:var(--silver);margin-bottom:3.5rem;}
 
-    /* ── CINEMATIC PHOTO STRIP ── */
-    #gallery{background:var(--near-black);overflow:hidden;padding-bottom:0;}
-    .photo-strip-wrapper{position:relative;overflow:hidden;margin-top:2rem;}
-    .photo-strip{display:flex;gap:12px;animation:stripScroll 35s linear infinite;}
-    .photo-strip:hover{animation-play-state:paused;}
-    .photo-strip-track{display:flex;gap:12px;}
-    .strip-item{
-      flex-shrink:0;width:280px;height:380px;overflow:hidden;position:relative;cursor:pointer;
+    /* ════════════════════ NEWS TICKER ════════════════════ */
+    .ticker-bar{
+      background:#070707;
+      border-top:1px solid rgba(255,255,255,.05);
+      border-bottom:1px solid rgba(255,255,255,.05);
+      padding:.65rem 0;overflow:hidden;
     }
-    .strip-item img{width:100%;height:100%;object-fit:cover;filter:grayscale(20%);transition:transform .6s ease,filter .4s ease;}
-    .strip-item:hover img{transform:scale(1.08);filter:grayscale(0%);}
-    .strip-label{
-      position:absolute;bottom:0;left:0;right:0;padding:1.2rem;
-      background:linear-gradient(to top,rgba(0,0,0,.8),transparent);
-      font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.7);
-      transform:translateY(100%);transition:.3s;
+    .ticker-track{display:flex;gap:3.5rem;animation:tick 18s linear infinite;white-space:nowrap;}
+    .ticker-track:hover{animation-play-state:paused;}
+    .ti{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--silver);display:flex;align-items:center;gap:.9rem;flex-shrink:0;}
+    .ti-dot{width:3px;height:3px;background:rgba(255,255,255,.35);border-radius:50%;flex-shrink:0;}
+    @keyframes tick{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+    /* ════════════════════ GALLERY ════════════════════ */
+    #gallery{background:var(--nb);overflow:hidden;}
+
+    /* ── Carousel strip (JS-driven, no hidden items) ── */
+    .carousel-wrap{position:relative;overflow:hidden;padding:0;}
+    .carousel-strip{
+      display:flex;
+      /* JS will set transform */
+      transition:transform .0s linear; /* driven by JS requestAnimationFrame */
+      will-change:transform;
     }
-    .strip-item:hover .strip-label{transform:translateY(0);}
-    @keyframes stripScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+    .car-item{
+      flex-shrink:0;
+      width:260px;height:360px;
+      margin-right:10px;
+      overflow:hidden;position:relative;cursor:pointer;
+    }
+    .car-item img{
+      width:100%;height:100%;object-fit:cover;
+      filter:grayscale(15%);
+      transition:transform .5s ease,filter .4s ease;
+      display:block;
+    }
+    .car-item:hover img{transform:scale(1.07);filter:grayscale(0%);}
+    .car-label{
+      position:absolute;bottom:0;left:0;right:0;
+      padding:1.2rem 1rem .9rem;
+      background:linear-gradient(to top,rgba(0,0,0,.82),transparent);
+      font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;
+      color:rgba(255,255,255,.75);
+      transform:translateY(100%);transition:.3s ease;
+    }
+    .car-item:hover .car-label{transform:translateY(0);}
 
-    /* second strip slower reverse */
-    .photo-strip-2{display:flex;gap:12px;animation:stripScrollReverse 45s linear infinite;margin-top:12px;margin-bottom:0;padding-bottom:0;}
-    .photo-strip-2:hover{animation-play-state:paused;}
-    @keyframes stripScrollReverse{0%{transform:translateX(-50%);}100%{transform:translateX(0);}}
+    /* reverse strip */
+    .carousel-strip.rev{
+      /* starts at -50% position, JS drives right */
+    }
 
-    /* ── PARALLAX FEATURE GALLERY ── */
-    .feature-gallery{max-width:1100px;margin:4rem auto 0;display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:260px 260px;gap:6px;padding:0 2rem;}
-    .fg-item{overflow:hidden;position:relative;cursor:pointer;}
-    .fg-item:nth-child(1){grid-row:span 2;}
-    .fg-item img{width:100%;height:100%;object-fit:cover;filter:grayscale(25%);transition:transform .7s cubic-bezier(.25,.46,.45,.94),filter .5s;}
-    .fg-item:hover img{transform:scale(1.07) rotate(.5deg);filter:grayscale(0%);}
-    .fg-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.3),transparent 60%);opacity:0;transition:.4s;}
-    .fg-item:hover .fg-overlay{opacity:1;}
-    .fg-tag{position:absolute;top:1rem;left:1rem;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;background:rgba(0,0,0,.7);color:var(--silver);padding:.3rem .7rem;backdrop-filter:blur(4px);}
+    /* ── Feature masonry ── */
+    .masonry{
+      max-width:1140px;margin:3rem auto 0;
+      display:grid;
+      grid-template-columns:1.4fr 1fr 1fr;
+      grid-template-rows:280px 280px;
+      gap:6px;padding:0 1.5rem 1.5rem;
+    }
+    .ms-item{overflow:hidden;position:relative;cursor:pointer;}
+    .ms-item:first-child{grid-row:span 2;}
+    .ms-item img{
+      width:100%;height:100%;object-fit:cover;
+      filter:grayscale(20%) brightness(.92);
+      transition:transform .65s cubic-bezier(.25,.46,.45,.94),filter .5s;
+      display:block;
+    }
+    .ms-item:hover img{transform:scale(1.06) rotate(.3deg);filter:grayscale(0%) brightness(1);}
+    .ms-over{
+      position:absolute;inset:0;
+      background:linear-gradient(160deg,rgba(0,0,0,.35),transparent 55%);
+      opacity:0;transition:.35s;
+    }
+    .ms-item:hover .ms-over{opacity:1;}
+    .ms-tag{
+      position:absolute;bottom:1rem;left:1rem;
+      font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+      background:rgba(0,0,0,.65);color:rgba(255,255,255,.8);
+      padding:.28rem .7rem;backdrop-filter:blur(4px);
+    }
 
-    /* ── SERVICES ── */
+    /* ── Lightbox ── */
+    #lightbox{
+      position:fixed;inset:0;z-index:9000;
+      background:rgba(0,0,0,.94);
+      display:none;align-items:center;justify-content:center;
+      cursor:zoom-out;
+    }
+    #lightbox.open{display:flex;}
+    #lightbox img{
+      max-width:92vw;max-height:90vh;
+      object-fit:contain;
+      animation:lbIn .3s ease;
+    }
+    @keyframes lbIn{from{opacity:0;transform:scale(.94);}to{opacity:1;transform:scale(1);}}
+    #lb-close{
+      position:absolute;top:1.5rem;right:1.8rem;
+      font-size:1.8rem;color:var(--silver);cursor:pointer;
+      line-height:1;
+      transition:color .2s;
+    }
+    #lb-close:hover{color:var(--white);}
+    #lb-prev,#lb-next{
+      position:absolute;top:50%;transform:translateY(-50%);
+      font-size:2rem;color:rgba(255,255,255,.5);cursor:pointer;
+      padding:.8rem;transition:color .2s;user-select:none;
+    }
+    #lb-prev{left:1rem;}#lb-next{right:1rem;}
+    #lb-prev:hover,#lb-next:hover{color:var(--white);}
+    #lb-counter{
+      position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);
+      font-size:.7rem;letter-spacing:.2em;color:var(--silver);
+    }
+
+    /* ════════════════════ SERVICES ════════════════════ */
     #services{background:var(--black);}
-    .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2px;max-width:900px;margin:0 auto;}
-    .service-card{background:var(--near-black);padding:3rem 2.5rem;position:relative;overflow:hidden;transition:transform .3s;border:1px solid rgba(255,255,255,.05);}
-    .service-card:hover{transform:translateY(-4px);}
-    .service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(255,255,255,.5),transparent);}
-    .service-price-tag{font-family:'Bebas Neue',sans-serif;font-size:3.8rem;color:var(--white);line-height:1;letter-spacing:.05em;}
-    .service-price-tag span{font-family:'DM Sans',sans-serif;font-size:1rem;color:var(--silver);letter-spacing:normal;}
-    .service-name{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin:.7rem 0 .3rem;color:var(--white);}
-    .service-type{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--silver);margin-bottom:1.5rem;}
-    .service-features{list-style:none;display:flex;flex-direction:column;gap:.6rem;}
-    .service-features li{font-size:.88rem;color:var(--silver);display:flex;align-items:center;gap:.6rem;}
-    .service-features li::before{content:'—';color:var(--mid-gray);font-size:.7rem;flex-shrink:0;}
-    .service-card.premium{background:#111;border-color:rgba(255,255,255,.12);}
-    .premium-badge{position:absolute;top:1.5rem;right:1.5rem;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;background:var(--white);color:var(--black);padding:.25rem .7rem;}
+    .srv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:2px;max-width:920px;margin:0 auto;}
+    .srv-card{
+      background:var(--nb);padding:3rem 2.5rem;
+      position:relative;overflow:hidden;
+      border:1px solid rgba(255,255,255,.05);
+      transition:transform .35s,border-color .3s;
+    }
+    .srv-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(255,255,255,.45),transparent);}
+    .srv-card:hover{transform:translateY(-5px);border-color:rgba(255,255,255,.13);}
+    .srv-price{font-family:'Bebas Neue',sans-serif;font-size:4rem;color:var(--white);line-height:1;letter-spacing:.05em;}
+    .srv-price span{font-family:'DM Sans',sans-serif;font-size:1rem;color:var(--silver);letter-spacing:normal;}
+    .srv-name{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;margin:.7rem 0 .25rem;color:var(--white);}
+    .srv-type{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--silver);margin-bottom:1.6rem;}
+    .srv-feats{list-style:none;display:flex;flex-direction:column;gap:.65rem;}
+    .srv-feats li{font-size:.88rem;color:var(--silver);display:flex;align-items:center;gap:.7rem;}
+    .srv-feats li::before{content:'—';color:var(--mid);font-size:.65rem;flex-shrink:0;}
+    .srv-card.prem{background:#111;border-color:rgba(255,255,255,.1);}
+    .prem-tag{position:absolute;top:1.5rem;right:1.5rem;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;background:var(--white);color:var(--black);padding:.26rem .75rem;}
 
-    /* ── BARBERS ── */
-    #barbers{background:var(--near-black);}
-    .barbers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem;max-width:700px;margin:0 auto;}
-    .barber-card{text-align:center;padding:2.5rem 2rem;border:1px solid rgba(255,255,255,.08);transition:border-color .3s,transform .3s;}
-    .barber-card:hover{border-color:rgba(255,255,255,.3);transform:translateY(-4px);}
-    .barber-avatar{width:96px;height:96px;border-radius:50%;margin:0 auto 1.4rem;background:var(--dark-gray);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--white);}
-    .barber-name{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:.3rem;color:var(--white);}
-    .barber-role{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--silver);margin-bottom:1.2rem;}
-    .barber-ig{display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--silver);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.2);padding-bottom:.15rem;transition:color .2s,border-color .2s;}
-    .barber-ig:hover{color:var(--white);border-color:var(--white);}
+    /* ════════════════════ BARBERS ════════════════════ */
+    #barbers{background:var(--nb);}
+    .brb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem;max-width:700px;margin:0 auto;}
+    .brb-card{
+      text-align:center;padding:2.5rem 2rem;
+      border:1px solid rgba(255,255,255,.08);
+      transition:border-color .3s,transform .35s,background .3s;
+      position:relative;overflow:hidden;
+    }
+    .brb-card:hover{border-color:rgba(255,255,255,.28);transform:translateY(-5px);background:rgba(255,255,255,.015);}
+    .brb-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(255,255,255,.3),transparent);transform:scaleX(0);transition:.4s;}
+    .brb-card:hover::after{transform:scaleX(1);}
+    .brb-av{width:96px;height:96px;border-radius:50%;margin:0 auto 1.4rem;background:var(--dark);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--white);}
+    .brb-name{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:.3rem;color:var(--white);}
+    .brb-role{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--silver);margin-bottom:1.2rem;}
+    .brb-ig{display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--silver);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:.15rem;transition:color .2s,border-color .2s;}
+    .brb-ig:hover{color:var(--white);border-color:var(--white);}
 
-    /* ── TIPS & TRICKS ── */
+    /* ════════════════════ TIPS & TRICKS ════════════════════ */
     #tips{background:var(--black);}
-    .tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;max-width:1100px;margin:0 auto;}
-    .tip-card{
-      background:var(--near-black);border:1px solid rgba(255,255,255,.07);
-      padding:2rem;position:relative;overflow:hidden;
-      transition:transform .3s,border-color .3s;
-      cursor:pointer;
+    .tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;margin:0 auto;}
+    .tip{
+      background:var(--nb);border:1px solid rgba(255,255,255,.06);
+      padding:2rem 1.8rem;position:relative;overflow:hidden;
+      transition:transform .35s,border-color .3s;cursor:default;
     }
-    .tip-card:hover{transform:translateY(-5px);border-color:rgba(255,255,255,.2);}
-    .tip-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,rgba(255,255,255,.4),transparent);transform:scaleX(0);transition:.4s;}
-    .tip-card:hover::after{transform:scaleX(1);}
-    .tip-cat{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--silver);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
-    .tip-cat::before{content:'';display:inline-block;width:20px;height:1px;background:var(--silver);}
-    .tip-emoji{font-size:2rem;margin-bottom:.8rem;display:block;}
-    .tip-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:.8rem;line-height:1.3;}
-    .tip-body{font-size:.88rem;color:var(--silver);line-height:1.7;}
-    .tip-tag{
-      display:inline-block;margin-top:1.2rem;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;
-      border:1px solid rgba(255,255,255,.15);padding:.25rem .7rem;color:var(--silver);
-    }
-    /* featured tip */
-    .tip-card.featured{
-      grid-column:span 2;
-      background:linear-gradient(135deg,#111,#0a0a0a);
-      border-color:rgba(255,255,255,.12);
-      display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;
-    }
-    .tip-card.featured .tip-img{
-      width:100%;height:220px;object-fit:cover;filter:grayscale(20%);
-      transition:filter .4s;
-    }
-    .tip-card.featured:hover .tip-img{filter:grayscale(0%);}
-    @media(max-width:768px){.tip-card.featured{grid-column:span 1;grid-template-columns:1fr;}}
+    .tip:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.18);}
+    .tip::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1.5px;background:linear-gradient(to right,transparent,rgba(255,255,255,.35),transparent);transform:scaleX(0);transition:.4s;}
+    .tip:hover::after{transform:scaleX(1);}
+    .tip-cat{font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--silver);margin-bottom:.9rem;display:flex;align-items:center;gap:.55rem;}
+    .tip-cat::before{content:'';display:inline-block;width:18px;height:1px;background:rgba(255,255,255,.2);}
+    .tip-icon{font-size:1.8rem;margin-bottom:.75rem;display:block;}
+    .tip-title{font-family:'Playfair Display',serif;font-size:1.18rem;font-weight:700;color:var(--white);margin-bottom:.75rem;line-height:1.35;}
+    .tip-body{font-size:.86rem;color:rgba(160,160,160,.9);line-height:1.75;}
+    .tip-tag{display:inline-block;margin-top:1.1rem;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;border:1px solid rgba(255,255,255,.12);padding:.22rem .68rem;color:rgba(160,160,160,.8);}
+    /* featured */
+    .tip.feat{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;gap:0;background:#0d0d0d;border-color:rgba(255,255,255,.1);}
+    .tip.feat .tip-img-wrap{overflow:hidden;}
+    .tip.feat .tip-img{width:100%;height:100%;object-fit:cover;filter:grayscale(15%);transition:filter .5s,transform .5s;}
+    .tip.feat:hover .tip-img{filter:grayscale(0%);transform:scale(1.04);}
+    .tip.feat .tip-content{padding:2rem 1.8rem;display:flex;flex-direction:column;justify-content:center;}
+    @media(max-width:900px){.tips-grid{grid-template-columns:1fr 1fr;}.tip.feat{grid-column:span 2;grid-template-columns:1fr;}}
+    @media(max-width:600px){.tips-grid{grid-template-columns:1fr;}.tip.feat{grid-column:span 1;}}
 
-    /* ── NEWS TICKER ── */
-    .news-ticker{
-      background:#0a0a0a;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);
-      padding:.7rem 0;overflow:hidden;
-    }
-    .ticker-inner{display:flex;gap:4rem;animation:ticker 30s linear infinite;white-space:nowrap;}
-    .ticker-inner:hover{animation-play-state:paused;}
-    .ticker-item{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--silver);display:flex;align-items:center;gap:1rem;flex-shrink:0;}
-    .ticker-dot{width:4px;height:4px;background:var(--silver);border-radius:50%;}
-    @keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+    /* ════════════════════ LOCATION ════════════════════ */
+    #location{background:var(--nb);}
+    .loc-wrap{max-width:980px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+    .loc-info{display:flex;flex-direction:column;gap:1.8rem;}
+    .ii{display:flex;gap:1rem;align-items:flex-start;}
+    .ii-icon{width:42px;height:42px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;margin-top:.1rem;}
+    .ii-lbl{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--silver);margin-bottom:.28rem;}
+    .ii-txt{font-size:.94rem;color:var(--off-white);line-height:1.55;}
+    .ii-txt a{color:var(--off-white);text-decoration:none;transition:color .2s;}
+    .ii-txt a:hover{color:var(--white);text-decoration:underline;}
+    .map-wrap{width:100%;aspect-ratio:4/3;border:1px solid rgba(255,255,255,.09);overflow:hidden;}
+    .map-wrap iframe{width:100%;height:100%;border:none;filter:grayscale(.55) contrast(1.05);}
 
-    /* ── LOCATION ── */
-    #location{background:var(--near-black);}
-    .location-wrapper{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
-    .location-info{display:flex;flex-direction:column;gap:1.8rem;}
-    .info-item{display:flex;gap:1rem;align-items:flex-start;}
-    .info-icon{width:40px;height:40px;background:var(--near-black);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:var(--white);font-size:1rem;flex-shrink:0;margin-top:.1rem;}
-    .info-label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--silver);margin-bottom:.25rem;}
-    .info-text{font-size:.95rem;color:var(--off-white);line-height:1.5;}
-    .info-text a{color:var(--off-white);text-decoration:none;transition:color .2s;}
-    .info-text a:hover{color:var(--white);text-decoration:underline;}
-    .map-embed{width:100%;aspect-ratio:4/3;border:1px solid rgba(255,255,255,.1);overflow:hidden;}
-    .map-embed iframe{width:100%;height:100%;border:none;filter:grayscale(.6) contrast(1.05);}
-
-    /* ── CONTACT ── */
+    /* ════════════════════ CONTACT ════════════════════ */
     #contact{background:var(--black);text-align:center;}
-    .social-links{display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-bottom:2.5rem;}
-    .social-btn{display:inline-flex;align-items:center;gap:.6rem;padding:.75rem 1.8rem;background:transparent;color:var(--silver);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(255,255,255,.15);transition:border-color .2s,color .2s;}
-    .social-btn:hover{border-color:var(--white);color:var(--white);}
-    .wa-button{display:inline-flex;align-items:center;gap:.9rem;padding:1.1rem 2.8rem;background:#25D366;color:#fff;font-size:.9rem;font-weight:500;letter-spacing:.08em;text-decoration:none;box-shadow:0 4px 30px rgba(37,211,102,.2);transition:background .25s,transform .2s,box-shadow .25s;}
-    .wa-button:hover{background:#1ebe5d;transform:translateY(-3px);box-shadow:0 8px 40px rgba(37,211,102,.3);}
+    .soc-links{display:flex;justify-content:center;gap:1.1rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+    .soc-btn{display:inline-flex;align-items:center;gap:.6rem;padding:.75rem 1.8rem;background:transparent;color:var(--silver);font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(255,255,255,.13);transition:border-color .2s,color .2s,background .2s;}
+    .soc-btn:hover{border-color:var(--white);color:var(--white);background:rgba(255,255,255,.03);}
+    .wa-btn{display:inline-flex;align-items:center;gap:.9rem;padding:1.15rem 2.9rem;background:#25D366;color:#fff;font-size:.9rem;font-weight:500;letter-spacing:.1em;text-decoration:none;box-shadow:0 4px 30px rgba(37,211,102,.18);transition:background .25s,transform .2s,box-shadow .25s;}
+    .wa-btn:hover{background:#1fbe5c;transform:translateY(-3px);box-shadow:0 10px 40px rgba(37,211,102,.28);}
 
-    footer{background:#050505;padding:2.5rem 2rem;text-align:center;border-top:1px solid rgba(255,255,255,.06);}
-    .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.2em;color:var(--white);margin-bottom:.5rem;}
-    .footer-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--silver);margin-bottom:1.5rem;}
-    .footer-copy{font-size:.72rem;color:var(--mid-gray);}
+    /* ════════════════════ FOOTER ════════════════════ */
+    footer{background:#040404;padding:2.5rem 2rem;text-align:center;border-top:1px solid rgba(255,255,255,.05);}
+    .ft-logo{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.22em;color:var(--white);margin-bottom:.45rem;}
+    .ft-tag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--silver);margin-bottom:1.4rem;}
+    .ft-copy{font-size:.7rem;color:var(--mid);}
 
-    .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
-    .reveal.visible{opacity:1;transform:translateY(0);}
-    .reveal-delay-1{transition-delay:.1s;}.reveal-delay-2{transition-delay:.2s;}.reveal-delay-3{transition-delay:.32s;}.reveal-delay-4{transition-delay:.44s;}.reveal-delay-5{transition-delay:.55s;}
+    /* ════════════════════ REVEAL ════════════════════ */
+    .rv{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s ease;}
+    .rv.in{opacity:1;transform:translateY(0);}
+    .d1{transition-delay:.08s;}.d2{transition-delay:.18s;}.d3{transition-delay:.29s;}.d4{transition-delay:.4s;}.d5{transition-delay:.5s;}
 
+    /* ════════════════════ MOBILE ════════════════════ */
     @media(max-width:768px){
-      nav{padding:1.2rem 1.5rem;}
-      .nav-links{display:none;}
-      .nav-hamburger{display:flex;}
-      section{padding:4rem 1.3rem;}
-      .location-wrapper{grid-template-columns:1fr;}
-      .hero-lines{width:320px;height:320px;}
-      .strip-item{width:200px;height:280px;}
-      .feature-gallery{grid-template-columns:1fr 1fr;grid-template-rows:auto;padding:0 1rem;}
-      .fg-item:nth-child(1){grid-row:span 1;}
+      nav{padding:1.1rem 1.4rem;}
+      .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:#000;flex-direction:column;padding:1.2rem 1.4rem;gap:1.2rem;}
+      .nav-links.open{display:flex;}
+      .nav-ham{display:flex;}
+      section{padding:4rem 1.2rem;}
+      .loc-wrap{grid-template-columns:1fr;}
+      .masonry{grid-template-columns:1fr 1fr;grid-template-rows:auto;padding:0 1rem 1rem;}
+      .ms-item:first-child{grid-row:span 1;}
+      .ring1{width:320px;height:320px;} .ring2{width:220px;height:220px;} .ring3{width:120px;height:120px;}
+      .car-item{width:200px;height:270px;}
     }
   </style>
 </head>
 <body class="loading">
 
-<!-- LOADER -->
+<!-- ══════════ LOADER ══════════ -->
 <div id="loader">
-  <div class="loader-scissors">✂</div>
-  <div class="loader-logo">Jawa Hair Studio</div>
-  <div class="loader-sub">Kroya, Cilacap</div>
-  <div class="loader-bar"></div>
+  <div class="loader-ring">
+    <svg viewBox="0 0 110 110"><circle cx="55" cy="55" r="50"/><circle class="arc" cx="55" cy="55" r="50" stroke-dashoffset="0"/></svg>
+    <div class="loader-inner"><span class="loader-scissors-anim">✂</span></div>
+  </div>
+  <div class="loader-wordmark">Jawa Hair Studio</div>
+  <div class="loader-city">Kroya, Cilacap</div>
+  <div class="loader-progress"><div class="loader-fill" id="ldrFill"></div></div>
 </div>
 
-<!-- NAV -->
-<nav>
+<!-- ══════════ NAV ══════════ -->
+<nav id="topnav">
   <div class="nav-logo">Jawa Hair Studio</div>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="#gallery">Galeri</a></li>
     <li><a href="#services">Layanan</a></li>
     <li><a href="#barbers">Barber</a></li>
@@ -260,150 +423,121 @@
     <li><a href="#location">Lokasi</a></li>
     <li><a href="#contact">Kontak</a></li>
   </ul>
-  <div class="nav-hamburger" onclick="document.querySelector('.nav-links').style.display=document.querySelector('.nav-links').style.display==='flex'?'none':'flex'">
-    <span></span><span></span><span></span>
-  </div>
+  <div class="nav-ham" id="ham"><span></span><span></span><span></span></div>
 </nav>
 
-<!-- HERO -->
+<!-- ══════════ HERO ══════════ -->
 <section id="hero">
   <div class="hero-bg"></div>
-  <div class="hero-lines"></div>
+  <div class="ring1"></div><div class="ring2"></div><div class="ring3"></div>
   <p class="hero-badge">Kroya, Cilacap — Jawa Tengah</p>
   <h1 class="hero-title">Jawa<span>Hair Studio</span></h1>
   <p class="hero-sub">Crafted cuts. Timeless style. True character.</p>
   <div class="hero-cta">
-    <a href="https://wa.me/6281221222042?text=Halo%20Jawa%20Hair%20Studio%2C%20saya%20ingin%20booking%20haircut" target="_blank" class="btn-primary">✦ &nbsp;Book via WhatsApp</a>
-    <a href="#services" class="btn-secondary">Lihat Layanan</a>
+    <a href="https://wa.me/6281221222042?text=Halo%20Admin%20Jawa%20Hair%20Studio%2C%20saya%20ingin%20booking%20haircut" target="_blank" class="btn-p">✦ &nbsp;Booking ke Admin Kami</a>
+    <a href="#services" class="btn-s">Lihat Layanan</a>
   </div>
 </section>
 
-<!-- NEWS TICKER -->
-<div class="news-ticker">
-  <div class="ticker-inner" id="ticker">
-    <span class="ticker-item"><span class="ticker-dot"></span> Open Every Day 10.00 – 21.00 WIB</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> Haircut Fresh mulai 50k</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> Haircut Premium + Hot Towel + Massage 60k</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> Walk-in Welcome — Tidak perlu booking!</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> Follow @jawa_hairstudio di Instagram</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> Head Barber: Dhika · Senior Barber: Ruri</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> Lokasi: Kroya, Cilacap, Jawa Tengah</span>
-    <!-- duplicate for seamless loop -->
-    <span class="ticker-item"><span class="ticker-dot"></span> Open Every Day 10.00 – 21.00 WIB</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> Haircut Fresh mulai 50k</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> Haircut Premium + Hot Towel + Massage 60k</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> Walk-in Welcome — Tidak perlu booking!</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> Follow @jawa_hairstudio di Instagram</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> Head Barber: Dhika · Senior Barber: Ruri</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> Lokasi: Kroya, Cilacap, Jawa Tengah</span>
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker-bar">
+  <div class="ticker-track" id="tickTrack">
+    <span class="ti"><span class="ti-dot"></span>Buka Setiap Hari · 10.00 – 21.00 WIB</span>
+    <span class="ti"><span class="ti-dot"></span>Haircut Fresh — Rp 50.000</span>
+    <span class="ti"><span class="ti-dot"></span>Haircut Premium + Hot Towel + Massage — Rp 60.000</span>
+    <span class="ti"><span class="ti-dot"></span>Walk-in Welcome · Atau By Booking</span>
+    <span class="ti"><span class="ti-dot"></span>Follow @jawa_hairstudio di Instagram</span>
+    <span class="ti"><span class="ti-dot"></span>Head Barber: Dhika · Senior Barber: Ruri</span>
+    <span class="ti"><span class="ti-dot"></span>Booking ke Admin: +62 812 2122 2042</span>
+    <span class="ti"><span class="ti-dot"></span>Buka Setiap Hari · 10.00 – 21.00 WIB</span>
+    <span class="ti"><span class="ti-dot"></span>Haircut Fresh — Rp 50.000</span>
+    <span class="ti"><span class="ti-dot"></span>Haircut Premium + Hot Towel + Massage — Rp 60.000</span>
+    <span class="ti"><span class="ti-dot"></span>Walk-in Welcome · Atau By Booking</span>
+    <span class="ti"><span class="ti-dot"></span>Follow @jawa_hairstudio di Instagram</span>
+    <span class="ti"><span class="ti-dot"></span>Head Barber: Dhika · Senior Barber: Ruri</span>
+    <span class="ti"><span class="ti-dot"></span>Booking ke Admin: +62 812 2122 2042</span>
   </div>
 </div>
 
-<!-- GALLERY -->
+<!-- ══════════ GALLERY ══════════ -->
 <section id="gallery">
-  <p class="section-label reveal">Our Work</p>
-  <h2 class="section-title reveal">Galeri Haircut</h2>
-  <p class="section-sub reveal">Hover untuk pause — geser otomatis setiap saat</p>
+  <p class="sec-label rv">Our Work</p>
+  <h2 class="sec-title rv">Galeri Haircut</h2>
+  <p class="sec-sub rv">Hover untuk pause · Klik foto untuk perbesar</p>
 
-  <!-- Strip 1 -->
-  <div class="photo-strip-wrapper reveal">
-    <div class="photo-strip">
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80&fit=crop" alt="Haircut session" loading="lazy"/><div class="strip-label">Classic Cut</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=400&q=80&fit=crop" alt="Scissor cut" loading="lazy"/><div class="strip-label">Scissor Work</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=400&q=80&fit=crop" alt="Barber" loading="lazy"/><div class="strip-label">Detail Fade</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80&fit=crop" alt="Styling" loading="lazy"/><div class="strip-label">Hair Styling</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80&fit=crop" alt="Fade" loading="lazy"/><div class="strip-label">Skin Fade</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80&fit=crop" alt="Barber tools" loading="lazy"/><div class="strip-label">Precision Tools</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?w=400&q=80&fit=crop" alt="Barbershop" loading="lazy"/><div class="strip-label">Studio Vibe</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1548484352-ea579e5233a8?w=400&q=80&fit=crop" alt="Modern cut" loading="lazy"/><div class="strip-label">Modern Look</div></div>
-      <!-- duplicate for loop -->
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80&fit=crop" alt="Haircut session" loading="lazy"/><div class="strip-label">Classic Cut</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=400&q=80&fit=crop" alt="Scissor cut" loading="lazy"/><div class="strip-label">Scissor Work</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=400&q=80&fit=crop" alt="Barber" loading="lazy"/><div class="strip-label">Detail Fade</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80&fit=crop" alt="Styling" loading="lazy"/><div class="strip-label">Hair Styling</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80&fit=crop" alt="Fade" loading="lazy"/><div class="strip-label">Skin Fade</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80&fit=crop" alt="Barber tools" loading="lazy"/><div class="strip-label">Precision Tools</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?w=400&q=80&fit=crop" alt="Barbershop" loading="lazy"/><div class="strip-label">Studio Vibe</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1548484352-ea579e5233a8?w=400&q=80&fit=crop" alt="Modern cut" loading="lazy"/><div class="strip-label">Modern Look</div></div>
+  <!-- Strip 1 — left scroll -->
+  <div class="carousel-wrap rv" style="margin-bottom:10px;">
+    <div class="carousel-strip" id="strip1">
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80&fit=crop" alt="Classic Cut" loading="lazy"/><div class="car-label">Classic Cut</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=400&q=80&fit=crop" alt="Scissor Work" loading="lazy"/><div class="car-label">Scissor Work</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=400&q=80&fit=crop" alt="Detail Fade" loading="lazy"/><div class="car-label">Detail Fade</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80&fit=crop" alt="Hair Styling" loading="lazy"/><div class="car-label">Hair Styling</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80&fit=crop" alt="Skin Fade" loading="lazy"/><div class="car-label">Skin Fade</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80&fit=crop" alt="Precision Tools" loading="lazy"/><div class="car-label">Precision Tools</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?w=400&q=80&fit=crop" alt="Studio Vibe" loading="lazy"/><div class="car-label">Studio Vibe</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1548484352-ea579e5233a8?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1548484352-ea579e5233a8?w=400&q=80&fit=crop" alt="Modern Look" loading="lazy"/><div class="car-label">Modern Look</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400&q=80&fit=crop" alt="Clean Shave" loading="lazy"/><div class="car-label">Clean Shave</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1534297635766-a262cdcb8ee4?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1534297635766-a262cdcb8ee4?w=400&q=80&fit=crop" alt="Undercut" loading="lazy"/><div class="car-label">Undercut</div></div>
     </div>
   </div>
 
-  <!-- Strip 2 (reverse) -->
-  <div class="photo-strip-wrapper reveal" style="margin-top:12px;">
-    <div class="photo-strip photo-strip-2">
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1512864084360-7c0c4d0a0f1e?w=400&q=80&fit=crop" alt="Barber chair" loading="lazy"/><div class="strip-label">The Chair</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400&q=80&fit=crop" alt="Shave" loading="lazy"/><div class="strip-label">Clean Shave</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&q=80&fit=crop" alt="Clippers" loading="lazy"/><div class="strip-label">Clipper Art</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1559599101-f09722fb4948?w=400&q=80&fit=crop" alt="Barbershop interior" loading="lazy"/><div class="strip-label">The Space</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=400&q=80&fit=crop" alt="Hairline" loading="lazy"/><div class="strip-label">Line Up</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80&fit=crop&crop=right" alt="Detail" loading="lazy"/><div class="strip-label">Fine Detail</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1521490683712-35a1cb235d1c?w=400&q=80&fit=crop" alt="Grooming" loading="lazy"/><div class="strip-label">Grooming</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1534297635766-a262cdcb8ee4?w=400&q=80&fit=crop" alt="Undercut" loading="lazy"/><div class="strip-label">Undercut</div></div>
-      <!-- duplicate -->
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1512864084360-7c0c4d0a0f1e?w=400&q=80&fit=crop" alt="Barber chair" loading="lazy"/><div class="strip-label">The Chair</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400&q=80&fit=crop" alt="Shave" loading="lazy"/><div class="strip-label">Clean Shave</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&q=80&fit=crop" alt="Clippers" loading="lazy"/><div class="strip-label">Clipper Art</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1559599101-f09722fb4948?w=400&q=80&fit=crop" alt="Barbershop interior" loading="lazy"/><div class="strip-label">The Space</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=400&q=80&fit=crop" alt="Hairline" loading="lazy"/><div class="strip-label">Line Up</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80&fit=crop&crop=right" alt="Detail" loading="lazy"/><div class="strip-label">Fine Detail</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1521490683712-35a1cb235d1c?w=400&q=80&fit=crop" alt="Grooming" loading="lazy"/><div class="strip-label">Grooming</div></div>
-      <div class="strip-item"><img src="https://images.unsplash.com/photo-1534297635766-a262cdcb8ee4?w=400&q=80&fit=crop" alt="Undercut" loading="lazy"/><div class="strip-label">Undercut</div></div>
+  <!-- Strip 2 — right scroll -->
+  <div class="carousel-wrap rv">
+    <div class="carousel-strip rev" id="strip2">
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&q=80&fit=crop" alt="Clipper Art" loading="lazy"/><div class="car-label">Clipper Art</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1559599101-f09722fb4948?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1559599101-f09722fb4948?w=400&q=80&fit=crop" alt="The Space" loading="lazy"/><div class="car-label">The Space</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=400&q=80&fit=crop" alt="Line Up" loading="lazy"/><div class="car-label">Line Up</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1521490683712-35a1cb235d1c?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1521490683712-35a1cb235d1c?w=400&q=80&fit=crop" alt="Grooming" loading="lazy"/><div class="car-label">Grooming</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=85&fit=crop&crop=entropy"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80&fit=crop&crop=entropy" alt="Fine Detail" loading="lazy"/><div class="car-label">Fine Detail</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&q=85&fit=crop&crop=top"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80&fit=crop&crop=top" alt="Fade Close" loading="lazy"/><div class="car-label">Fade Close-Up</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=85&fit=crop&crop=bottom"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80&fit=crop&crop=bottom" alt="Razor Work" loading="lazy"/><div class="car-label">Razor Work</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=85&fit=crop&crop=top"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80&fit=crop&crop=top" alt="Texture Style" loading="lazy"/><div class="car-label">Texture Style</div></div>
+      <div class="car-item" data-src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=85&fit=crop&crop=bottom"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=400&q=80&fit=crop&crop=bottom" alt="Finish" loading="lazy"/><div class="car-label">The Finish</div></div>
     </div>
   </div>
 
-  <!-- Feature gallery -->
-  <div class="feature-gallery">
-    <div class="fg-item reveal reveal-delay-1">
-      <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=700&q=80&fit=crop" alt="Featured cut"/>
-      <div class="fg-overlay"></div>
-      <div class="fg-tag">Featured</div>
-    </div>
-    <div class="fg-item reveal reveal-delay-2">
-      <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=500&q=80&fit=crop" alt="Style 1"/>
-      <div class="fg-overlay"></div>
-      <div class="fg-tag">Styling</div>
-    </div>
-    <div class="fg-item reveal reveal-delay-3">
-      <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=500&q=80&fit=crop" alt="Style 2"/>
-      <div class="fg-overlay"></div>
-      <div class="fg-tag">Barbershop</div>
-    </div>
-    <div class="fg-item reveal reveal-delay-4">
-      <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=500&q=80&fit=crop" alt="Style 3"/>
-      <div class="fg-overlay"></div>
-      <div class="fg-tag">Fade</div>
-    </div>
-    <div class="fg-item reveal reveal-delay-5">
-      <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=500&q=80&fit=crop" alt="Style 4"/>
-      <div class="fg-overlay"></div>
-      <div class="fg-tag">Scissor</div>
-    </div>
+  <!-- Masonry feature -->
+  <div class="masonry">
+    <div class="ms-item rv d1" data-src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=900&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=700&q=80&fit=crop" alt="Featured"/><div class="ms-over"></div><div class="ms-tag">Featured</div></div>
+    <div class="ms-item rv d2" data-src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=700&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=500&q=80&fit=crop" alt="Style 1"/><div class="ms-over"></div><div class="ms-tag">Styling</div></div>
+    <div class="ms-item rv d3" data-src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=700&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=500&q=80&fit=crop" alt="Style 2"/><div class="ms-over"></div><div class="ms-tag">Barbershop</div></div>
+    <div class="ms-item rv d4" data-src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=700&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=500&q=80&fit=crop" alt="Style 3"/><div class="ms-over"></div><div class="ms-tag">Fade</div></div>
+    <div class="ms-item rv d5" data-src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=700&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=500&q=80&fit=crop" alt="Style 4"/><div class="ms-over"></div><div class="ms-tag">Scissor</div></div>
   </div>
 </section>
 
-<!-- SERVICES -->
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <span id="lb-close">✕</span>
+  <span id="lb-prev">‹</span>
+  <img id="lb-img" src="" alt=""/>
+  <span id="lb-next">›</span>
+  <span id="lb-counter"></span>
+</div>
+
+<!-- ══════════ SERVICES ══════════ -->
 <section id="services">
-  <p class="section-label reveal">Our Services</p>
-  <h2 class="section-title reveal">Pilih Layanan Anda</h2>
-  <p class="section-sub reveal">Profesional, presisi, memuaskan</p>
-  <div class="services-grid">
-    <div class="service-card reveal reveal-delay-1">
-      <div class="service-price-tag">50k <span>/ sesi</span></div>
-      <div class="service-name">Haircut Fresh</div>
-      <div class="service-type">Paket Standar</div>
-      <ul class="service-features">
+  <p class="sec-label rv">Our Services</p>
+  <h2 class="sec-title rv">Pilih Layanan Anda</h2>
+  <p class="sec-sub rv">Profesional, presisi, memuaskan</p>
+  <div class="srv-grid">
+    <div class="srv-card rv d1">
+      <div class="srv-price">50k <span>/ sesi</span></div>
+      <div class="srv-name">Haircut Fresh</div>
+      <div class="srv-type">Paket Standar</div>
+      <ul class="srv-feats">
         <li>Cut — Potongan presisi</li>
         <li>Wash — Keramas bersih</li>
         <li>Hair Tonic — Perawatan kulit kepala</li>
         <li>Styling with Product — Rapi &amp; stylish</li>
       </ul>
     </div>
-    <div class="service-card premium reveal reveal-delay-2">
-      <div class="premium-badge">Best Value</div>
-      <div class="service-price-tag">60k <span>/ sesi</span></div>
-      <div class="service-name">Haircut Premium</div>
-      <div class="service-type">Paket Eksklusif</div>
-      <ul class="service-features">
+    <div class="srv-card prem rv d2">
+      <div class="prem-tag">Best Value</div>
+      <div class="srv-price">60k <span>/ sesi</span></div>
+      <div class="srv-name">Haircut Premium</div>
+      <div class="srv-type">Paket Eksklusif</div>
+      <ul class="srv-feats">
         <li>Cut — Potongan presisi</li>
         <li>Wash — Keramas bersih</li>
         <li>Tonic — Perawatan kulit kepala</li>
@@ -415,208 +549,259 @@
   </div>
 </section>
 
-<!-- BARBERS -->
+<!-- ══════════ BARBERS ══════════ -->
 <section id="barbers">
-  <p class="section-label reveal">Meet the Team</p>
-  <h2 class="section-title reveal">Barber Kami</h2>
-  <p class="section-sub reveal">Profesional, berpengalaman, penuh dedikasi</p>
-  <div class="barbers-grid">
-    <div class="barber-card reveal reveal-delay-1">
-      <div class="barber-avatar">D</div>
-      <div class="barber-name">Dhika</div>
-      <div class="barber-role">Head Barber</div>
-      <a href="https://instagram.com/aldie.andhika12" target="_blank" class="barber-ig">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+  <p class="sec-label rv">Meet the Team</p>
+  <h2 class="sec-title rv">Barber Kami</h2>
+  <p class="sec-sub rv">Profesional, berpengalaman, penuh dedikasi</p>
+  <div class="brb-grid">
+    <div class="brb-card rv d1">
+      <div class="brb-av">D</div>
+      <div class="brb-name">Dhika</div>
+      <div class="brb-role">Head Barber</div>
+      <a href="https://instagram.com/aldie.andhika12" target="_blank" class="brb-ig">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
         @aldie.andhika12
       </a>
     </div>
-    <div class="barber-card reveal reveal-delay-2">
-      <div class="barber-avatar">R</div>
-      <div class="barber-name">Ruri</div>
-      <div class="barber-role">Senior Barber</div>
-      <a href="https://instagram.com/rurihairstyle" target="_blank" class="barber-ig">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    <div class="brb-card rv d2">
+      <div class="brb-av">R</div>
+      <div class="brb-name">Ruri</div>
+      <div class="brb-role">Senior Barber</div>
+      <a href="https://instagram.com/rurihairstyle" target="_blank" class="brb-ig">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
         @rurihairstyle
       </a>
     </div>
   </div>
 </section>
 
-<!-- TIPS & TRICKS -->
+<!-- ══════════ TIPS ══════════ -->
 <section id="tips">
-  <p class="section-label reveal">Hair Knowledge</p>
-  <h2 class="section-title reveal">Tips & Trik Rambut</h2>
-  <p class="section-sub reveal">Dari barber kami untuk kamu — perawatan terbaik setiap hari</p>
-
+  <p class="sec-label rv">Hair Knowledge</p>
+  <h2 class="sec-title rv">Tips &amp; Trik Rambut</h2>
+  <p class="sec-sub rv">Dari barber kami untuk kamu — perawatan terbaik setiap hari</p>
   <div class="tips-grid">
-
-    <!-- Featured tip -->
-    <div class="tip-card featured reveal">
-      <img class="tip-img" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80&fit=crop" alt="Pomade tips"/>
-      <div>
+    <div class="tip feat rv">
+      <div class="tip-img-wrap"><img class="tip-img" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=700&q=80&fit=crop" alt="Pomade tip"/></div>
+      <div class="tip-content">
         <div class="tip-cat">Featured Tip</div>
-        <span class="tip-emoji">💈</span>
+        <span class="tip-icon">💈</span>
         <div class="tip-title">Cara Pakai Pomade yang Benar Agar Tidak Lengket</div>
-        <div class="tip-body">Oleskan pomade ke telapak tangan, gosok hingga hangat, lalu aplikasikan dari belakang ke depan. Mulai dengan sedikit — kamu bisa tambahkan, tapi susah dikurangi. Pomade water-based lebih mudah dicuci dan cocok untuk pemakaian harian di iklim tropis seperti Indonesia.</div>
+        <div class="tip-body">Oleskan pomade ke telapak tangan, gosok hingga hangat, lalu aplikasikan dari belakang ke depan. Mulai sedikit — kamu bisa tambah, susah dikurangi. Pomade water-based lebih mudah dicuci dan cocok untuk iklim tropis Indonesia.</div>
         <span class="tip-tag">Styling</span>
       </div>
     </div>
-
-    <div class="tip-card reveal reveal-delay-1">
+    <div class="tip rv d1">
       <div class="tip-cat">Perawatan Harian</div>
-      <span class="tip-emoji">🚿</span>
+      <span class="tip-icon">🚿</span>
       <div class="tip-title">Berapa Kali Sebaiknya Keramas?</div>
-      <div class="tip-body">Untuk rambut normal, 2–3 kali seminggu sudah cukup. Terlalu sering keramas bisa menghilangkan minyak alami rambut dan membuat kulit kepala kering. Gunakan air hangat, bukan panas.</div>
+      <div class="tip-body">Untuk rambut normal, 2–3 kali seminggu sudah cukup. Terlalu sering keramas bisa menghilangkan minyak alami dan membuat kulit kepala kering. Gunakan air hangat, bukan panas.</div>
       <span class="tip-tag">Daily Care</span>
     </div>
-
-    <div class="tip-card reveal reveal-delay-2">
+    <div class="tip rv d2">
       <div class="tip-cat">Setelah Potong</div>
-      <span class="tip-emoji">✂️</span>
+      <span class="tip-icon">✂️</span>
       <div class="tip-title">Kapan Waktu Ideal Potong Rambut?</div>
-      <div class="tip-body">Idealnya setiap 3–4 minggu untuk potongan pendek seperti fade dan undercut agar garis tetap rapi. Untuk medium-length, cukup setiap 5–6 minggu. Jangan tunggu terlalu lama — rambut rapi = penampilan prima.</div>
+      <div class="tip-body">Idealnya setiap 3–4 minggu untuk fade &amp; undercut agar garis tetap rapi. Untuk medium-length cukup 5–6 minggu. Jangan tunggu terlalu lama — rambut rapi = penampilan prima.</div>
       <span class="tip-tag">Grooming</span>
     </div>
-
-    <div class="tip-card reveal reveal-delay-3">
+    <div class="tip rv d3">
       <div class="tip-cat">Produk Rambut</div>
-      <span class="tip-emoji">🪮</span>
-      <div class="tip-title">Perbedaan Pomade, Clay & Wax</div>
-      <div class="tip-body"><strong style="color:var(--off-white)">Pomade:</strong> kilap tinggi, hold medium. <strong style="color:var(--off-white)">Clay:</strong> matte look, hold kuat, cocok untuk textured style. <strong style="color:var(--off-white)">Wax:</strong> fleksibel, cocok untuk gaya natural. Pilih sesuai gaya rambut kamu!</div>
+      <span class="tip-icon">🪮</span>
+      <div class="tip-title">Perbedaan Pomade, Clay &amp; Wax</div>
+      <div class="tip-body"><strong style="color:var(--off-white)">Pomade:</strong> kilap tinggi, hold medium. <strong style="color:var(--off-white)">Clay:</strong> matte, hold kuat, cocok untuk textured style. <strong style="color:var(--off-white)">Wax:</strong> fleksibel, gaya natural. Pilih sesuai karakter rambut kamu!</div>
       <span class="tip-tag">Products</span>
     </div>
-
-    <div class="tip-card reveal reveal-delay-4">
+    <div class="tip rv d4">
       <div class="tip-cat">Kulit Kepala</div>
-      <span class="tip-emoji">🌿</span>
-      <div class="tip-title">Atasi Ketombe dengan Cara Alami</div>
-      <div class="tip-body">Pijat kulit kepala dengan campuran minyak kelapa dan beberapa tetes tea tree oil sebelum keramas. Biarkan 20 menit lalu bilas bersih. Lakukan 2x seminggu untuk hasil optimal. Hindari produk beralkohol tinggi.</div>
+      <span class="tip-icon">🌿</span>
+      <div class="tip-title">Atasi Ketombe Secara Alami</div>
+      <div class="tip-body">Pijat kulit kepala dengan campuran minyak kelapa + beberapa tetes tea tree oil sebelum keramas. Diamkan 20 menit lalu bilas. Lakukan 2x seminggu untuk hasil optimal.</div>
       <span class="tip-tag">Scalp Care</span>
     </div>
-
-    <div class="tip-card reveal reveal-delay-5">
+    <div class="tip rv d1">
       <div class="tip-cat">Style Guide</div>
-      <span class="tip-emoji">💇</span>
+      <span class="tip-icon">💇</span>
       <div class="tip-title">Pilih Potongan Sesuai Bentuk Wajah</div>
-      <div class="tip-body"><strong style="color:var(--off-white)">Oval:</strong> cocok dengan hampir semua gaya. <strong style="color:var(--off-white)">Bulat:</strong> pilih fade tinggi atau pompadour. <strong style="color:var(--off-white)">Kotak:</strong> coba textured crop. Konsultasikan dengan barber kami untuk saran personal!</div>
+      <div class="tip-body"><strong style="color:var(--off-white)">Oval:</strong> cocok hampir semua gaya. <strong style="color:var(--off-white)">Bulat:</strong> pilih fade tinggi. <strong style="color:var(--off-white)">Kotak:</strong> coba textured crop. Konsultasikan langsung ke barber kami!</div>
       <span class="tip-tag">Face Shape</span>
     </div>
-
-    <div class="tip-card reveal">
+    <div class="tip rv d2">
       <div class="tip-cat">Pro Tip</div>
-      <span class="tip-emoji">🔑</span>
-      <div class="tip-title">Rahasia Rambut Selalu Rapi Sepanjang Hari</div>
-      <div class="tip-body">Aplikasikan sedikit hair tonic setelah keramas dan blow dry dengan arah yang kamu inginkan. Finishing dengan setting spray ringan. Rambut kamu akan tahan angin dan tetap rapi hingga malam hari.</div>
+      <span class="tip-icon">🔑</span>
+      <div class="tip-title">Rahasia Rambut Rapi Sepanjang Hari</div>
+      <div class="tip-body">Aplikasikan sedikit hair tonic setelah keramas &amp; blow dry sesuai arah yang diinginkan. Finishing dengan setting spray ringan — rambut akan tahan angin hingga malam hari.</div>
       <span class="tip-tag">Pro Secret</span>
     </div>
-
-    <div class="tip-card reveal reveal-delay-1">
+    <div class="tip rv d3">
       <div class="tip-cat">Tren 2025</div>
-      <span class="tip-emoji">🔥</span>
+      <span class="tip-icon">🔥</span>
       <div class="tip-title">Gaya Rambut Paling Populer Saat Ini</div>
-      <div class="tip-body">Textured Fringe, Mid Fade dengan side part, dan Curly Crop sedang trending. Gaya-gaya ini low-maintenance tapi tetap stylish. Tanyakan langsung ke barber kami untuk referensi potongan terkini!</div>
-      <span class="tip-tag">Trends</span>
+      <div class="tip-body">Textured Fringe, Mid Fade dengan side part, dan Curly Crop sedang trending. Low-maintenance tapi tetap stylish. Tanyakan barber kami untuk referensi terkini!</div>
+      <span class="tip-tag">Trends 2025</span>
     </div>
-
   </div>
 </section>
 
-<!-- LOCATION -->
+<!-- ══════════ LOCATION ══════════ -->
 <section id="location">
-  <p class="section-label reveal">Find Us</p>
-  <h2 class="section-title reveal">Lokasi Kami</h2>
-  <p class="section-sub reveal">Datang &amp; rasakan pengalaman terbaik</p>
-  <div class="location-wrapper">
-    <div class="location-info reveal">
-      <div class="info-item">
-        <div class="info-icon">📍</div>
-        <div>
-          <div class="info-label">Alamat</div>
-          <div class="info-text">Kroya, Cilacap<br>Jawa Tengah<br><br><a href="https://maps.app.goo.gl/WKyoXWxcvfC1R21ZA" target="_blank">Buka di Google Maps →</a></div>
-        </div>
-      </div>
-      <div class="info-item">
-        <div class="info-icon">📞</div>
-        <div>
-          <div class="info-label">Kontak Admin</div>
-          <div class="info-text"><a href="https://wa.me/6281221222042" target="_blank">+62 812 2122 2042</a></div>
-        </div>
-      </div>
-      <div class="info-item">
-        <div class="info-icon">📷</div>
-        <div>
-          <div class="info-label">Instagram</div>
-          <div class="info-text"><a href="https://instagram.com/jawa_hairstudio" target="_blank">@jawa_hairstudio</a></div>
-        </div>
-      </div>
-      <div class="info-item">
-        <div class="info-icon">🕐</div>
-        <div>
-          <div class="info-label">Jam Operasional</div>
-          <div class="info-text">Setiap Hari · 10.00 – 21.00 WIB</div>
-        </div>
-      </div>
+  <p class="sec-label rv">Find Us</p>
+  <h2 class="sec-title rv">Lokasi Kami</h2>
+  <p class="sec-sub rv">Datang &amp; rasakan pengalaman terbaik</p>
+  <div class="loc-wrap">
+    <div class="loc-info rv">
+      <div class="ii"><div class="ii-icon">📍</div><div><div class="ii-lbl">Alamat</div><div class="ii-txt">Kroya, Cilacap<br>Jawa Tengah<br><br><a href="https://maps.app.goo.gl/WKyoXWxcvfC1R21ZA" target="_blank">Buka di Google Maps →</a></div></div></div>
+      <div class="ii"><div class="ii-icon">📞</div><div><div class="ii-lbl">Booking ke Admin</div><div class="ii-txt"><a href="https://wa.me/6281221222042" target="_blank">+62 812 2122 2042</a></div></div></div>
+      <div class="ii"><div class="ii-icon">📷</div><div><div class="ii-lbl">Instagram</div><div class="ii-txt"><a href="https://instagram.com/jawa_hairstudio" target="_blank">@jawa_hairstudio</a></div></div></div>
+      <div class="ii"><div class="ii-icon">🕐</div><div><div class="ii-lbl">Jam Operasional</div><div class="ii-txt">Setiap Hari · 10.00 – 21.00 WIB</div></div></div>
     </div>
-    <div class="map-embed reveal reveal-delay-1">
+    <div class="map-wrap rv d1">
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.4523!2d109.2485793!3d-7.6326841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6541109ccd7beb%3A0xdfe418aa708f6f32!2sJAWA%20HAIRSTUDIO!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- ══════════ CONTACT ══════════ -->
 <section id="contact">
-  <p class="section-label reveal">Get In Touch</p>
-  <h2 class="section-title reveal">Hubungi Kami</h2>
-  <p class="section-sub reveal">Booking, tanya harga, atau sekadar ngobrol — kami siap!</p>
-  <div class="divider reveal"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
-  <div class="social-links reveal reveal-delay-1">
-    <a href="https://instagram.com/jawa_hairstudio" target="_blank" class="social-btn">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+  <p class="sec-label rv">Get In Touch</p>
+  <h2 class="sec-title rv">Hubungi Kami</h2>
+  <p class="sec-sub rv">Booking ke admin kami, tanya harga, atau sekadar ngobrol — kami siap!</p>
+  <div class="divider rv"><div class="divider-line"></div><div class="divider-dot">✦</div><div class="divider-line"></div></div>
+  <div class="soc-links rv d1">
+    <a href="https://instagram.com/jawa_hairstudio" target="_blank" class="soc-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
       @jawa_hairstudio
     </a>
-    <a href="https://instagram.com/aldie.andhika12" target="_blank" class="social-btn">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    <a href="https://instagram.com/aldie.andhika12" target="_blank" class="soc-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
       @aldie.andhika12
     </a>
-    <a href="https://instagram.com/rurihairstyle" target="_blank" class="social-btn">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    <a href="https://instagram.com/rurihairstyle" target="_blank" class="soc-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
       @rurihairstyle
     </a>
   </div>
-  <a href="https://wa.me/6281221222042?text=Halo%20Jawa%20Hair%20Studio%2C%20saya%20ingin%20booking%20haircut" target="_blank" class="wa-button reveal reveal-delay-2">
+  <a href="https://wa.me/6281221222042?text=Halo%20Admin%20Jawa%20Hair%20Studio%2C%20saya%20ingin%20booking%20haircut" target="_blank" class="wa-btn rv d2">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    Chat WhatsApp Sekarang
+    Booking ke Admin Kami
   </a>
 </section>
 
-<!-- FOOTER -->
+<!-- ══════════ FOOTER ══════════ -->
 <footer>
-  <div class="footer-logo">Jawa Hair Studio</div>
-  <p class="footer-tagline">Crafted cuts. Timeless style.</p>
-  <p class="footer-copy">© 2025 Jawa Hair Studio · Kroya, Cilacap · All rights reserved · Power By Avankha B.K</p>
+  <div class="ft-logo">Jawa Hair Studio</div>
+  <p class="ft-tag">Crafted cuts. Timeless style.</p>
+  <p class="ft-copy">© 2025 Jawa Hair Studio · Kroya, Cilacap · All rights reserved · Power By Avankha B.K</p>
 </footer>
 
 <script>
-  // LOADER
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.getElementById('loader').classList.add('hidden');
-      document.body.classList.remove('loading');
-    }, 1800);
-  });
+/* ─── LOADER ─── */
+(function(){
+  const fill = document.getElementById('ldrFill');
+  requestAnimationFrame(()=>{ fill.style.width = '100%'; });
+  function hide(){
+    document.getElementById('loader').classList.add('out');
+    document.body.classList.remove('loading');
+  }
+  if(document.readyState==='complete') setTimeout(hide,400);
+  else window.addEventListener('load',()=>setTimeout(hide,400));
+})();
 
-  // REVEAL on scroll
-  const reveals = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} });
-  }, { threshold: 0.08 });
-  reveals.forEach(el => obs.observe(el));
+/* ─── NAV ─── */
+const topnav = document.getElementById('topnav');
+window.addEventListener('scroll',()=>{ topnav.classList.toggle('solid', scrollY>60); });
+document.getElementById('ham').addEventListener('click',()=>{
+  document.getElementById('navLinks').classList.toggle('open');
+});
 
-  // NAV scroll
-  const nav = document.querySelector('nav');
-  window.addEventListener('scroll', () => {
-    nav.style.background = window.scrollY > 80 ? 'rgba(0,0,0,.97)' : 'linear-gradient(to bottom,rgba(0,0,0,.95),transparent)';
-  });
+/* ─── SCROLL REVEAL ─── */
+const rvEls = document.querySelectorAll('.rv');
+const rvObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); rvObs.unobserve(e.target); }});
+},{threshold:0.07});
+rvEls.forEach(el=>rvObs.observe(el));
+
+/* ─── INFINITE CAROUSEL (RAF-based, no cloning gaps) ─── */
+function makeCarousel(el, speed, reverse){
+  const items = Array.from(el.children);
+  const gap   = 10;
+  // clone all items
+  items.forEach(it=>{ const cl = it.cloneNode(true); el.appendChild(cl); });
+
+  let pos   = 0;
+  let paused= false;
+  let totalW= 0;
+
+  function calcW(){
+    totalW = 0;
+    Array.from(el.children).slice(0, items.length).forEach(it=>{ totalW += it.offsetWidth + gap; });
+  }
+  calcW();
+  window.addEventListener('resize', calcW);
+
+  if(reverse){ pos = -totalW; }
+
+  el.parentElement.addEventListener('mouseenter',()=>{ paused=true; });
+  el.parentElement.addEventListener('mouseleave',()=>{ paused=false; });
+
+  // touch drag
+  let touchStart=0, touchPos0=0;
+  el.parentElement.addEventListener('touchstart', e=>{ touchStart=e.touches[0].clientX; touchPos0=pos; paused=true; });
+  el.parentElement.addEventListener('touchmove',  e=>{ pos = touchPos0 + (e.touches[0].clientX - touchStart); });
+  el.parentElement.addEventListener('touchend',   ()=>{ paused=false; });
+
+  let last=null;
+  function frame(ts){
+    if(!last) last=ts;
+    const dt = ts-last; last=ts;
+    if(!paused){
+      if(!reverse){
+        pos -= speed*(dt/1000);
+        if(pos <= -totalW) pos += totalW;
+      } else {
+        pos += speed*(dt/1000);
+        if(pos >= 0) pos -= totalW;
+      }
+    }
+    el.style.transform = `translateX(${pos}px)`;
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+// strip1: left at 90px/s, strip2: right at 70px/s
+makeCarousel(document.getElementById('strip1'), 90, false);
+makeCarousel(document.getElementById('strip2'), 70, true);
+
+/* ─── LIGHTBOX ─── */
+const lb     = document.getElementById('lightbox');
+const lbImg  = document.getElementById('lb-img');
+const lbCount= document.getElementById('lb-counter');
+const allImgEls = document.querySelectorAll('.car-item, .ms-item');
+const srcs   = Array.from(allImgEls).map(el=>el.dataset.src||el.querySelector('img').src);
+let   lbIdx  = 0;
+
+function openLb(idx){
+  lbIdx = ((idx%srcs.length)+srcs.length)%srcs.length;
+  lbImg.src = srcs[lbIdx];
+  lbCount.textContent = (lbIdx+1)+' / '+srcs.length;
+  lb.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLb(){ lb.classList.remove('open'); document.body.style.overflow=''; }
+
+allImgEls.forEach((el,i)=>{ el.addEventListener('click',()=>openLb(i)); });
+document.getElementById('lb-close').addEventListener('click',closeLb);
+document.getElementById('lb-prev').addEventListener('click',(e)=>{ e.stopPropagation(); openLb(lbIdx-1); });
+document.getElementById('lb-next').addEventListener('click',(e)=>{ e.stopPropagation(); openLb(lbIdx+1); });
+lb.addEventListener('click',(e)=>{ if(e.target===lb) closeLb(); });
+document.addEventListener('keydown',e=>{
+  if(!lb.classList.contains('open')) return;
+  if(e.key==='ArrowLeft') openLb(lbIdx-1);
+  if(e.key==='ArrowRight') openLb(lbIdx+1);
+  if(e.key==='Escape') closeLb();
+});
 </script>
 </body>
 </html>
