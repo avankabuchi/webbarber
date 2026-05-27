@@ -20,44 +20,21 @@
     #loader{
       position:fixed;inset:0;z-index:100000;
       background:#000;display:flex;flex-direction:column;
-      align-items:center;justify-content:center;gap:2rem;
+      align-items:center;justify-content:center;gap:1.5rem;
       transition:opacity 1s ease,visibility 1s ease;
     }
     #loader.out{opacity:0;visibility:hidden;}
 
-    .loader-ring{
-      position:relative;width:110px;height:110px;
+    .loader-logo-img {
+      width: 160px;
+      height: auto;
+      animation: pulseLogo 1.5s ease-in-out infinite alternate;
     }
-    .loader-ring svg{
-      width:110px;height:110px;
-      animation:ringRotate 2.2s linear infinite;
+    @keyframes pulseLogo {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      100% { transform: scale(1.05); opacity: 1; }
     }
-    .loader-ring circle{
-      fill:none;stroke:rgba(255,255,255,.12);stroke-width:1;
-    }
-    .loader-ring .arc{
-      fill:none;stroke:rgba(255,255,255,.9);stroke-width:1;
-      stroke-dasharray:60 220;
-      stroke-linecap:round;
-    }
-    @keyframes ringRotate{to{transform:rotate(360deg);transform-origin:center;}}
 
-    .loader-inner{
-      position:absolute;inset:0;display:flex;flex-direction:column;
-      align-items:center;justify-content:center;
-    }
-    .loader-scissors-anim{
-      font-size:1.6rem;
-      animation:scissorSnip .9s ease-in-out infinite alternate;
-    }
-    @keyframes scissorSnip{0%{transform:rotate(-15deg) scale(.9);}100%{transform:rotate(15deg) scale(1.05);}}
-
-    .loader-wordmark{
-      font-family:'Bebas Neue',sans-serif;
-      font-size:clamp(2.8rem,9vw,5.5rem);
-      letter-spacing:.22em;color:var(--white);
-      line-height:1;
-    }
     .loader-city{
       font-family:'Cormorant Garamond',serif;
       font-style:italic;font-size:.95rem;
@@ -66,6 +43,7 @@
     .loader-progress{
       width:200px;height:1px;background:rgba(255,255,255,.08);
       position:relative;overflow:hidden;
+      margin-top: 1rem;
     }
     .loader-fill{
       position:absolute;left:0;top:0;height:100%;width:0;
@@ -83,7 +61,10 @@
       transition:background .3s;
     }
     nav.solid{background:rgba(0,0,0,.97);}
-    .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.45rem;letter-spacing:.2em;color:var(--white);}
+    
+    .nav-logo { display: flex; align-items: center; text-decoration: none; }
+    .nav-logo-img { height: 50px; width: auto; object-fit: contain; }
+    
     .nav-links{display:flex;gap:2.4rem;list-style:none;}
     .nav-links a{
       font-size:.73rem;letter-spacing:.2em;text-transform:uppercase;
@@ -146,7 +127,7 @@
       animation:fu .9s .4s ease both;
     }
     .btn-p{
-      display:inline-flex;align-items:center;gap:.7rem;
+      display:inline-flex;align-items:center;justify-content:center;gap:.7rem;
       padding:1rem 2.6rem;background:var(--white);color:var(--black);
       font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
       text-decoration:none;border:none;cursor:pointer;
@@ -154,7 +135,7 @@
     }
     .btn-p:hover{background:var(--off-white);transform:translateY(-3px);box-shadow:0 8px 30px rgba(255,255,255,.15);}
     .btn-s{
-      display:inline-flex;align-items:center;gap:.7rem;
+      display:inline-flex;align-items:center;justify-content:center;gap:.7rem;
       padding:1rem 2.6rem;background:transparent;color:var(--white);
       font-size:.78rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase;
       text-decoration:none;border:1px solid rgba(255,255,255,.25);cursor:pointer;
@@ -188,12 +169,10 @@
     /* ════════════════════ GALLERY ════════════════════ */
     #gallery{background:var(--nb);overflow:hidden;}
 
-    /* ── Carousel strip (JS-driven, no hidden items) ── */
     .carousel-wrap{position:relative;overflow:hidden;padding:0;}
     .carousel-strip{
       display:flex;
-      /* JS will set transform */
-      transition:transform .0s linear; /* driven by JS requestAnimationFrame */
+      transition:transform .0s linear; 
       will-change:transform;
     }
     .car-item{
@@ -219,12 +198,6 @@
     }
     .car-item:hover .car-label{transform:translateY(0);}
 
-    /* reverse strip */
-    .carousel-strip.rev{
-      /* starts at -50% position, JS drives right */
-    }
-
-    /* ── Feature masonry ── */
     .masonry{
       max-width:1140px;margin:3rem auto 0;
       display:grid;
@@ -349,9 +322,7 @@
     .tip.feat .tip-img{width:100%;height:100%;object-fit:cover;filter:grayscale(15%);transition:filter .5s,transform .5s;}
     .tip.feat:hover .tip-img{filter:grayscale(0%);transform:scale(1.04);}
     .tip.feat .tip-content{padding:2rem 1.8rem;display:flex;flex-direction:column;justify-content:center;}
-    @media(max-width:900px){.tips-grid{grid-template-columns:1fr 1fr;}.tip.feat{grid-column:span 2;grid-template-columns:1fr;}}
-    @media(max-width:600px){.tips-grid{grid-template-columns:1fr;}.tip.feat{grid-column:span 1;}}
-
+    
     /* ════════════════════ LOCATION ════════════════════ */
     #location{background:var(--nb);}
     .loc-wrap{max-width:980px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
@@ -384,37 +355,75 @@
     .rv.in{opacity:1;transform:translateY(0);}
     .d1{transition-delay:.08s;}.d2{transition-delay:.18s;}.d3{transition-delay:.29s;}.d4{transition-delay:.4s;}.d5{transition-delay:.5s;}
 
-    /* ════════════════════ MOBILE ════════════════════ */
+    /* ════════════════════ MOBILE RESPONSIVENESS ════════════════════ */
+    @media(max-width:900px){
+      .tips-grid{grid-template-columns:1fr 1fr;}
+      .tip.feat{grid-column:span 2;grid-template-columns:1fr;}
+    }
+    
     @media(max-width:768px){
-      nav{padding:1.1rem 1.4rem;}
-      .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:#000;flex-direction:column;padding:1.2rem 1.4rem;gap:1.2rem;}
+      nav{padding:1rem 1.2rem;}
+      .nav-logo-img { height: 38px; }
+      
+      .nav-links{
+        display:none;
+        position:absolute;
+        top:100%;
+        left:0;
+        right:0;
+        background:rgba(0,0,0,0.98);
+        flex-direction:column;
+        padding:2rem 1.5rem;
+        gap:1.8rem;
+        text-align:center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        backdrop-filter:blur(8px);
+      }
       .nav-links.open{display:flex;}
       .nav-ham{display:flex;}
+      
       section{padding:4rem 1.2rem;}
+      
+      .hero-title{font-size:clamp(3rem, 12vw, 4rem);}
+      .hero-sub{font-size:1rem;}
+      
+      .hero-cta { flex-direction: column; width: 100%; max-width: 320px; gap: 1rem; }
+      .btn-p, .btn-s { width: 100%; padding: 1rem 1.5rem; font-size: 0.75rem; }
+      
       .loc-wrap{grid-template-columns:1fr;}
-      .masonry{grid-template-columns:1fr 1fr;grid-template-rows:auto;padding:0 1rem 1rem;}
+      .srv-grid { grid-template-columns: 1fr; }
+      .brb-grid { grid-template-columns: 1fr; }
+      
+      .masonry{grid-template-columns:1fr 1fr;grid-template-rows:auto;padding:0 0.5rem 0.5rem;}
       .ms-item:first-child{grid-row:span 1;}
+      
       .ring1{width:320px;height:320px;} .ring2{width:220px;height:220px;} .ring3{width:120px;height:120px;}
       .car-item{width:200px;height:270px;}
+      
+      .wa-btn { padding: 1rem 2rem; width: 100%; max-width: 320px; justify-content: center; }
+    }
+    
+    /* Tambahan optimalisasi untuk HP yang layarnya lebih kecil */
+    @media(max-width:480px){
+      .masonry{grid-template-columns:1fr; gap:8px;}
+      .tips-grid{grid-template-columns:1fr;}
+      .tip.feat{grid-column:span 1; grid-template-columns:1fr;}
+      .sec-title{font-size: 2rem;}
     }
   </style>
 </head>
 <body class="loading">
 
-<!-- ══════════ LOADER ══════════ -->
 <div id="loader">
-  <div class="loader-ring">
-    <svg viewBox="0 0 110 110"><circle cx="55" cy="55" r="50"/><circle class="arc" cx="55" cy="55" r="50" stroke-dashoffset="0"/></svg>
-    <div class="loader-inner"><span class="loader-scissors-anim">✂</span></div>
-  </div>
-  <div class="loader-wordmark">Jawa Hair Studio</div>
+  <img src="logo.jpg" alt="Jawa Hair Studio" class="loader-logo-img">
   <div class="loader-city">Kroya, Cilacap</div>
   <div class="loader-progress"><div class="loader-fill" id="ldrFill"></div></div>
 </div>
 
-<!-- ══════════ NAV ══════════ -->
 <nav id="topnav">
-  <div class="nav-logo">Jawa Hair Studio</div>
+  <a href="#" class="nav-logo">
+    <img src="logo.jpg" alt="Jawa Hair Studio" class="nav-logo-img">
+  </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#gallery">Galeri</a></li>
     <li><a href="#services">Layanan</a></li>
@@ -426,7 +435,6 @@
   <div class="nav-ham" id="ham"><span></span><span></span><span></span></div>
 </nav>
 
-<!-- ══════════ HERO ══════════ -->
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="ring1"></div><div class="ring2"></div><div class="ring3"></div>
@@ -434,12 +442,11 @@
   <h1 class="hero-title">Jawa<span>Hair Studio</span></h1>
   <p class="hero-sub">Crafted cuts. Timeless style. True character.</p>
   <div class="hero-cta">
-    <a href="https://wa.me/6281221222042?text=Halo%20Admin%20Jawa%20Hair%20Studio%2C%20saya%20ingin%20booking%20haircut" target="_blank" class="btn-p">✦ &nbsp;Booking ke Admin Kami</a>
+    <a href="https://wa.me/6281221222042?text=Halo%20Admin%20JW%20Hair%20Studio%2C%20saya%20ingin%20booking%20haircut" target="_blank" class="btn-p">✦  Booking ke Admin Kami</a>
     <a href="#services" class="btn-s">Lihat Layanan</a>
   </div>
 </section>
 
-<!-- ══════════ TICKER ══════════ -->
 <div class="ticker-bar">
   <div class="ticker-track" id="tickTrack">
     <span class="ti"><span class="ti-dot"></span>Buka Setiap Hari · 10.00 – 21.00 WIB</span>
@@ -459,13 +466,11 @@
   </div>
 </div>
 
-<!-- ══════════ GALLERY ══════════ -->
 <section id="gallery">
   <p class="sec-label rv">Our Work</p>
   <h2 class="sec-title rv">Galeri Haircut</h2>
   <p class="sec-sub rv">Hover untuk pause · Klik foto untuk perbesar</p>
 
-  <!-- Strip 1 — left scroll -->
   <div class="carousel-wrap rv" style="margin-bottom:10px;">
     <div class="carousel-strip" id="strip1">
       <div class="car-item" data-src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80&fit=crop" alt="Classic Cut" loading="lazy"/><div class="car-label">Classic Cut</div></div>
@@ -481,7 +486,6 @@
     </div>
   </div>
 
-  <!-- Strip 2 — right scroll -->
   <div class="carousel-wrap rv">
     <div class="carousel-strip rev" id="strip2">
       <div class="car-item" data-src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&q=80&fit=crop" alt="Clipper Art" loading="lazy"/><div class="car-label">Clipper Art</div></div>
@@ -496,7 +500,6 @@
     </div>
   </div>
 
-  <!-- Masonry feature -->
   <div class="masonry">
     <div class="ms-item rv d1" data-src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=900&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=700&q=80&fit=crop" alt="Featured"/><div class="ms-over"></div><div class="ms-tag">Featured</div></div>
     <div class="ms-item rv d2" data-src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=700&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=500&q=80&fit=crop" alt="Style 1"/><div class="ms-over"></div><div class="ms-tag">Styling</div></div>
@@ -506,7 +509,6 @@
   </div>
 </section>
 
-<!-- LIGHTBOX -->
 <div id="lightbox">
   <span id="lb-close">✕</span>
   <span id="lb-prev">‹</span>
@@ -515,7 +517,6 @@
   <span id="lb-counter"></span>
 </div>
 
-<!-- ══════════ SERVICES ══════════ -->
 <section id="services">
   <p class="sec-label rv">Our Services</p>
   <h2 class="sec-title rv">Pilih Layanan Anda</h2>
@@ -529,7 +530,7 @@
         <li>Cut — Potongan presisi</li>
         <li>Wash — Keramas bersih</li>
         <li>Hair Tonic — Perawatan kulit kepala</li>
-        <li>Styling with Product — Rapi &amp; stylish</li>
+        <li>Styling with Product — Rapi & stylish</li>
       </ul>
     </div>
     <div class="srv-card prem rv d2">
@@ -543,13 +544,12 @@
         <li>Tonic — Perawatan kulit kepala</li>
         <li>Hot Towel — Relaksasi wajah</li>
         <li>Soft Massage — Pijat kepala lembut</li>
-        <li>Styling with Product — Rapi &amp; stylish</li>
+        <li>Styling with Product — Rapi & stylish</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- ══════════ BARBERS ══════════ -->
 <section id="barbers">
   <p class="sec-label rv">Meet the Team</p>
   <h2 class="sec-title rv">Barber Kami</h2>
@@ -576,10 +576,9 @@
   </div>
 </section>
 
-<!-- ══════════ TIPS ══════════ -->
 <section id="tips">
   <p class="sec-label rv">Hair Knowledge</p>
-  <h2 class="sec-title rv">Tips &amp; Trik Rambut</h2>
+  <h2 class="sec-title rv">Tips & Trik Rambut</h2>
   <p class="sec-sub rv">Dari barber kami untuk kamu — perawatan terbaik setiap hari</p>
   <div class="tips-grid">
     <div class="tip feat rv">
@@ -603,13 +602,13 @@
       <div class="tip-cat">Setelah Potong</div>
       <span class="tip-icon">✂️</span>
       <div class="tip-title">Kapan Waktu Ideal Potong Rambut?</div>
-      <div class="tip-body">Idealnya setiap 3–4 minggu untuk fade &amp; undercut agar garis tetap rapi. Untuk medium-length cukup 5–6 minggu. Jangan tunggu terlalu lama — rambut rapi = penampilan prima.</div>
+      <div class="tip-body">Idealnya setiap 3–4 minggu untuk fade & undercut agar garis tetap rapi. Untuk medium-length cukup 5–6 minggu. Jangan tunggu terlalu lama — rambut rapi = penampilan prima.</div>
       <span class="tip-tag">Grooming</span>
     </div>
     <div class="tip rv d3">
       <div class="tip-cat">Produk Rambut</div>
       <span class="tip-icon">🪮</span>
-      <div class="tip-title">Perbedaan Pomade, Clay &amp; Wax</div>
+      <div class="tip-title">Perbedaan Pomade, Clay & Wax</div>
       <div class="tip-body"><strong style="color:var(--off-white)">Pomade:</strong> kilap tinggi, hold medium. <strong style="color:var(--off-white)">Clay:</strong> matte, hold kuat, cocok untuk textured style. <strong style="color:var(--off-white)">Wax:</strong> fleksibel, gaya natural. Pilih sesuai karakter rambut kamu!</div>
       <span class="tip-tag">Products</span>
     </div>
@@ -631,7 +630,7 @@
       <div class="tip-cat">Pro Tip</div>
       <span class="tip-icon">🔑</span>
       <div class="tip-title">Rahasia Rambut Rapi Sepanjang Hari</div>
-      <div class="tip-body">Aplikasikan sedikit hair tonic setelah keramas &amp; blow dry sesuai arah yang diinginkan. Finishing dengan setting spray ringan — rambut akan tahan angin hingga malam hari.</div>
+      <div class="tip-body">Aplikasikan sedikit hair tonic setelah keramas & blow dry sesuai arah yang diinginkan. Finishing dengan setting spray ringan — rambut akan tahan angin hingga malam hari.</div>
       <span class="tip-tag">Pro Secret</span>
     </div>
     <div class="tip rv d3">
@@ -644,11 +643,10 @@
   </div>
 </section>
 
-<!-- ══════════ LOCATION ══════════ -->
 <section id="location">
   <p class="sec-label rv">Find Us</p>
   <h2 class="sec-title rv">Lokasi Kami</h2>
-  <p class="sec-sub rv">Datang &amp; rasakan pengalaman terbaik</p>
+  <p class="sec-sub rv">Datang & rasakan pengalaman terbaik</p>
   <div class="loc-wrap">
     <div class="loc-info rv">
       <div class="ii"><div class="ii-icon">📍</div><div><div class="ii-lbl">Alamat</div><div class="ii-txt">Kroya, Cilacap<br>Jawa Tengah<br><br><a href="https://maps.app.goo.gl/WKyoXWxcvfC1R21ZA" target="_blank">Buka di Google Maps →</a></div></div></div>
@@ -662,7 +660,6 @@
   </div>
 </section>
 
-<!-- ══════════ CONTACT ══════════ -->
 <section id="contact">
   <p class="sec-label rv">Get In Touch</p>
   <h2 class="sec-title rv">Hubungi Kami</h2>
@@ -682,13 +679,12 @@
       @rurihairstyle
     </a>
   </div>
-  <a href="https://wa.me/6281221222042?text=Halo%20Admin%20Jawa%20Hair%20Studio%2C%20saya%20ingin%20booking%20haircut" target="_blank" class="wa-btn rv d2">
+  <a href="https://wa.me/6281221222042?text=Halo%20Admin%20JW%20Hair%20Studio%2C%20saya%20ingin%20booking%20haircut" target="_blank" class="wa-btn rv d2">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     Booking ke Admin Kami
   </a>
 </section>
 
-<!-- ══════════ FOOTER ══════════ -->
 <footer>
   <div class="ft-logo">Jawa Hair Studio</div>
   <p class="ft-tag">Crafted cuts. Timeless style.</p>
@@ -805,3 +801,5 @@ document.addEventListener('keydown',e=>{
 </script>
 </body>
 </html>
+
+```
