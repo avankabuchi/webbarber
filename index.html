@@ -303,7 +303,30 @@
     .brb-card:hover{border-color:rgba(255,255,255,.28);transform:translateY(-5px);background:rgba(255,255,255,.015);}
     .brb-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(255,255,255,.3),transparent);transform:scaleX(0);transition:.4s;}
     .brb-card:hover::after{transform:scaleX(1);}
+
+    /* Avatar default (fallback huruf) */
     .brb-av{width:96px;height:96px;border-radius:50%;margin:0 auto 1.4rem;background:var(--dark);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--white);}
+
+    /* Avatar dengan foto */
+    .brb-av--photo{
+      background:transparent;
+      border:2px solid rgba(255,255,255,.25);
+      overflow:hidden;
+      padding:0;
+    }
+    .brb-photo{
+      width:100%;height:100%;
+      object-fit:cover;
+      object-position:center top;
+      display:block;
+      filter:grayscale(10%);
+      transition:filter .4s, transform .5s;
+    }
+    .brb-card:hover .brb-photo{
+      filter:grayscale(0%);
+      transform:scale(1.07);
+    }
+
     .brb-name{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:.3rem;color:var(--white);}
     .brb-role{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--silver);margin-bottom:1.2rem;}
     .brb-ig{display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--silver);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:.15rem;transition:color .2s,border-color .2s;}
@@ -373,11 +396,8 @@
     
     @media(max-width:768px){
       nav{padding:1rem 1.2rem;}
-      
-      /* Mobile logo size adjustments */
       .nav-logo-img { height: 35px; }
       .nav-logo-text { font-size: 1.15rem; }
-      
       .nav-links{
         display:none;
         position:absolute;
@@ -394,25 +414,18 @@
       }
       .nav-links.open{display:flex;}
       .nav-ham{display:flex;}
-      
       section{padding:4rem 1.2rem;}
-      
       .hero-title{font-size:clamp(3rem, 12vw, 4rem);}
       .hero-sub{font-size:1rem;}
-      
       .hero-cta { flex-direction: column; width: 100%; max-width: 320px; gap: 1rem; }
       .btn-p, .btn-s { width: 100%; padding: 1rem 1.5rem; font-size: 0.75rem; }
-      
       .loc-wrap{grid-template-columns:1fr;}
       .srv-grid { grid-template-columns: 1fr; }
       .brb-grid { grid-template-columns: 1fr; }
-      
       .masonry{grid-template-columns:1fr 1fr;grid-template-rows:auto;padding:0 0.5rem 0.5rem;}
       .ms-item:first-child{grid-row:span 1;}
-      
       .ring1{width:320px;height:320px;} .ring2{width:220px;height:220px;} .ring3{width:120px;height:120px;}
       .car-item{width:200px;height:270px;}
-      
       .wa-btn { padding: 1rem 2rem; width: 100%; max-width: 320px; justify-content: center; }
     }
     
@@ -456,7 +469,7 @@
   <h1 class="hero-title">Jawa<span>Hair Studio</span></h1>
   <p class="hero-sub">Crafted cuts. Timeless style. True character.</p>
   <div class="hero-cta">
-    <a href="https://wa.me/6281221222042?text=Halo%20Admin%20Jawa%20Hair%20Studio%2C%20saya%20ingin%20booking%20haircut" target="_blank" class="btn-p">✦  Booking ke Admin Kami</a>
+    <a href="https://wa.me/6281221222042?text=Halo%20Admin%20Jawa%20Hair%20Studio%2C%20saya%20ingin%20booking%20haircut" target="_blank" class="btn-p">✦  Booking ke Admin Kami</a>
     <a href="#services" class="btn-s">Lihat Layanan</a>
   </div>
 </section>
@@ -544,7 +557,7 @@
         <li>Cut — Potongan presisi</li>
         <li>Wash — Keramas bersih</li>
         <li>Hair Tonic — Perawatan kulit kepala</li>
-        <li>Styling with Product — Rapi & stylish</li>
+        <li>Styling with Product — Rapi &amp; stylish</li>
       </ul>
     </div>
     <div class="srv-card prem rv d2">
@@ -558,19 +571,24 @@
         <li>Tonic — Perawatan kulit kepala</li>
         <li>Hot Towel — Relaksasi wajah</li>
         <li>Soft Massage — Pijat kepala lembut</li>
-        <li>Styling with Product — Rapi & stylish</li>
+        <li>Styling with Product — Rapi &amp; stylish</li>
       </ul>
     </div>
   </div>
 </section>
 
+<!-- ═══════════════════ BARBERS ═══════════════════ -->
 <section id="barbers">
   <p class="sec-label rv">Meet the Team</p>
   <h2 class="sec-title rv">Barber Kami</h2>
   <p class="sec-sub rv">Profesional, berpengalaman, penuh dedikasi</p>
   <div class="brb-grid">
+
+    <!-- Dhika -->
     <div class="brb-card rv d1">
-      <div class="brb-av">D</div>
+      <div class="brb-av brb-av--photo">
+        <img src="dhika.jpg" alt="Dhika — Head Barber" class="brb-photo"/>
+      </div>
       <div class="brb-name">Dhika</div>
       <div class="brb-role">Head Barber</div>
       <a href="https://instagram.com/aldie.andhika12" target="_blank" class="brb-ig">
@@ -578,8 +596,12 @@
         @aldie.andhika12
       </a>
     </div>
+
+    <!-- Ruri -->
     <div class="brb-card rv d2">
-      <div class="brb-av">R</div>
+      <div class="brb-av brb-av--photo">
+        <img src="ruri.jpg" alt="Ruri — Senior Barber" class="brb-photo"/>
+      </div>
       <div class="brb-name">Ruri</div>
       <div class="brb-role">Senior Barber</div>
       <a href="https://instagram.com/rurihairstyle" target="_blank" class="brb-ig">
@@ -587,12 +609,13 @@
         @rurihairstyle
       </a>
     </div>
+
   </div>
 </section>
 
 <section id="tips">
   <p class="sec-label rv">Hair Knowledge</p>
-  <h2 class="sec-title rv">Tips & Trik Rambut</h2>
+  <h2 class="sec-title rv">Tips &amp; Trik Rambut</h2>
   <p class="sec-sub rv">Dari barber kami untuk kamu — perawatan terbaik setiap hari</p>
   <div class="tips-grid">
     <div class="tip feat rv">
@@ -616,13 +639,13 @@
       <div class="tip-cat">Setelah Potong</div>
       <span class="tip-icon">✂️</span>
       <div class="tip-title">Kapan Waktu Ideal Potong Rambut?</div>
-      <div class="tip-body">Idealnya setiap 3–4 minggu untuk fade & undercut agar garis tetap rapi. Untuk medium-length cukup 5–6 minggu. Jangan tunggu terlalu lama — rambut rapi = penampilan prima.</div>
+      <div class="tip-body">Idealnya setiap 3–4 minggu untuk fade &amp; undercut agar garis tetap rapi. Untuk medium-length cukup 5–6 minggu. Jangan tunggu terlalu lama — rambut rapi = penampilan prima.</div>
       <span class="tip-tag">Grooming</span>
     </div>
     <div class="tip rv d3">
       <div class="tip-cat">Produk Rambut</div>
       <span class="tip-icon">🪮</span>
-      <div class="tip-title">Perbedaan Pomade, Clay & Wax</div>
+      <div class="tip-title">Perbedaan Pomade, Clay &amp; Wax</div>
       <div class="tip-body"><strong style="color:var(--off-white)">Pomade:</strong> kilap tinggi, hold medium. <strong style="color:var(--off-white)">Clay:</strong> matte, hold kuat, cocok untuk textured style. <strong style="color:var(--off-white)">Wax:</strong> fleksibel, gaya natural. Pilih sesuai karakter rambut kamu!</div>
       <span class="tip-tag">Products</span>
     </div>
@@ -644,7 +667,7 @@
       <div class="tip-cat">Pro Tip</div>
       <span class="tip-icon">🔑</span>
       <div class="tip-title">Rahasia Rambut Rapi Sepanjang Hari</div>
-      <div class="tip-body">Aplikasikan sedikit hair tonic setelah keramas & blow dry sesuai arah yang diinginkan. Finishing dengan setting spray ringan — rambut akan tahan angin hingga malam hari.</div>
+      <div class="tip-body">Aplikasikan sedikit hair tonic setelah keramas &amp; blow dry sesuai arah yang diinginkan. Finishing dengan setting spray ringan — rambut akan tahan angin hingga malam hari.</div>
       <span class="tip-tag">Pro Secret</span>
     </div>
     <div class="tip rv d3">
@@ -660,7 +683,7 @@
 <section id="location">
   <p class="sec-label rv">Find Us</p>
   <h2 class="sec-title rv">Lokasi Kami</h2>
-  <p class="sec-sub rv">Datang & rasakan pengalaman terbaik</p>
+  <p class="sec-sub rv">Datang &amp; rasakan pengalaman terbaik</p>
   <div class="loc-wrap">
     <div class="loc-info rv">
       <div class="ii"><div class="ii-icon">📍</div><div><div class="ii-lbl">Alamat</div><div class="ii-txt">Kroya, Cilacap<br>Jawa Tengah<br><br><a href="https://maps.app.goo.gl/WKyoXWxcvfC1R21ZA" target="_blank">Buka di Google Maps →</a></div></div></div>
@@ -732,11 +755,10 @@ const rvObs = new IntersectionObserver(entries=>{
 },{threshold:0.07});
 rvEls.forEach(el=>rvObs.observe(el));
 
-/* ─── INFINITE CAROUSEL (RAF-based, no cloning gaps) ─── */
+/* ─── INFINITE CAROUSEL (RAF-based) ─── */
 function makeCarousel(el, speed, reverse){
   const items = Array.from(el.children);
   const gap   = 10;
-  // clone all items
   items.forEach(it=>{ const cl = it.cloneNode(true); el.appendChild(cl); });
 
   let pos   = 0;
@@ -755,7 +777,6 @@ function makeCarousel(el, speed, reverse){
   el.parentElement.addEventListener('mouseenter',()=>{ paused=true; });
   el.parentElement.addEventListener('mouseleave',()=>{ paused=false; });
 
-  // touch drag
   let touchStart=0, touchPos0=0;
   el.parentElement.addEventListener('touchstart', e=>{ touchStart=e.touches[0].clientX; touchPos0=pos; paused=true; });
   el.parentElement.addEventListener('touchmove',  e=>{ pos = touchPos0 + (e.touches[0].clientX - touchStart); });
@@ -780,7 +801,6 @@ function makeCarousel(el, speed, reverse){
   requestAnimationFrame(frame);
 }
 
-// strip1: left at 90px/s, strip2: right at 70px/s
 makeCarousel(document.getElementById('strip1'), 90, false);
 makeCarousel(document.getElementById('strip2'), 70, true);
 
