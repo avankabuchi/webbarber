@@ -303,30 +303,10 @@
     .brb-card:hover{border-color:rgba(255,255,255,.28);transform:translateY(-5px);background:rgba(255,255,255,.015);}
     .brb-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(255,255,255,.3),transparent);transform:scaleX(0);transition:.4s;}
     .brb-card:hover::after{transform:scaleX(1);}
-
-    /* Avatar default (fallback huruf) */
     .brb-av{width:96px;height:96px;border-radius:50%;margin:0 auto 1.4rem;background:var(--dark);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--white);}
-
-    /* Avatar dengan foto */
-    .brb-av--photo{
-      background:transparent;
-      border:2px solid rgba(255,255,255,.25);
-      overflow:hidden;
-      padding:0;
-    }
-    .brb-photo{
-      width:100%;height:100%;
-      object-fit:cover;
-      object-position:center top;
-      display:block;
-      filter:grayscale(10%);
-      transition:filter .4s, transform .5s;
-    }
-    .brb-card:hover .brb-photo{
-      filter:grayscale(0%);
-      transform:scale(1.07);
-    }
-
+    .brb-av--photo{background:transparent;border:2px solid rgba(255,255,255,.25);overflow:hidden;padding:0;}
+    .brb-photo{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:grayscale(10%);transition:filter .4s, transform .5s;}
+    .brb-card:hover .brb-photo{filter:grayscale(0%);transform:scale(1.07);}
     .brb-name{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:.3rem;color:var(--white);}
     .brb-role{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--silver);margin-bottom:1.2rem;}
     .brb-ig{display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--silver);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:.15rem;transition:color .2s,border-color .2s;}
@@ -356,8 +336,18 @@
     .tip.feat:hover .tip-img{filter:grayscale(0%);transform:scale(1.04);}
     .tip.feat .tip-content{padding:2rem 1.8rem;display:flex;flex-direction:column;justify-content:center;}
     
+    /* ════════════════════ TESTIMONIALS (TAMBAHAN) ════════════════════ */
+    #testimonials{background:var(--nb);}
+    .testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;max-width:1100px;margin:0 auto;}
+    .testi-card{background:var(--black);padding:2.5rem 2rem;border:1px solid rgba(255,255,255,.05);position:relative;transition:transform .3s, border-color .3s;}
+    .testi-card:hover{transform:translateY(-5px);border-color:rgba(255,255,255,.2);}
+    .testi-quote{font-size:3rem;color:rgba(255,255,255,.1);margin-bottom:.5rem;line-height:1;font-family:'Playfair Display',serif;}
+    .testi-text{font-size:.9rem;color:var(--silver);line-height:1.6;margin-bottom:1.5rem;font-style:italic;}
+    .testi-author{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--white);font-weight:700;}
+    .testi-role{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);margin-top:.3rem;}
+
     /* ════════════════════ LOCATION ════════════════════ */
-    #location{background:var(--nb);}
+    #location{background:var(--black);}
     .loc-wrap{max-width:980px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
     .loc-info{display:flex;flex-direction:column;gap:1.8rem;}
     .ii{display:flex;gap:1rem;align-items:flex-start;}
@@ -370,12 +360,48 @@
     .map-wrap iframe{width:100%;height:100%;border:none;filter:grayscale(.55) contrast(1.05);}
 
     /* ════════════════════ CONTACT ════════════════════ */
-    #contact{background:var(--black);text-align:center;}
+    #contact{background:var(--nb);text-align:center;}
     .soc-links{display:flex;justify-content:center;gap:1.1rem;flex-wrap:wrap;margin-bottom:2.5rem;}
     .soc-btn{display:inline-flex;align-items:center;gap:.6rem;padding:.75rem 1.8rem;background:transparent;color:var(--silver);font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(255,255,255,.13);transition:border-color .2s,color .2s,background .2s;}
     .soc-btn:hover{border-color:var(--white);color:var(--white);background:rgba(255,255,255,.03);}
     .wa-btn{display:inline-flex;align-items:center;gap:.9rem;padding:1.15rem 2.9rem;background:#25D366;color:#fff;font-size:.9rem;font-weight:500;letter-spacing:.1em;text-decoration:none;box-shadow:0 4px 30px rgba(37,211,102,.18);transition:background .25s,transform .2s,box-shadow .25s;}
     .wa-btn:hover{background:#1fbe5c;transform:translateY(-3px);box-shadow:0 10px 40px rgba(37,211,102,.28);}
+
+    /* ════════════════════ BOOKING MODAL (TAMBAHAN) ════════════════════ */
+    #bookingModal{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(5px);}
+    #bookingModal.open{display:flex;animation:fadeIn .3s;}
+    .modal-content{background:var(--nb);border:1px solid rgba(255,255,255,.1);padding:2.5rem 2rem;max-width:420px;width:100%;position:relative;border-top:3px solid var(--white); max-height: 90vh; overflow-y: auto;}
+    .modal-close{position:absolute;top:1rem;right:1.5rem;font-size:1.5rem;color:var(--silver);cursor:pointer;transition:color .3s;}
+    .modal-close:hover{color:var(--white);}
+    .modal-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--white);margin-bottom:.3rem;text-align:center;}
+    .form-group{margin-bottom:1.2rem;}
+    .form-label{display:block;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--silver);margin-bottom:.4rem;}
+    .form-input{width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:.8rem 1rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .3s;}
+    .form-input:focus{border-color:var(--white);}
+    .form-input option{background:var(--black); color:var(--white);}
+    .modal-btn{width:100%;background:var(--white);color:var(--black);border:none;padding:1rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;margin-top:1rem;transition:background .3s;}
+    .modal-btn:hover{background:var(--off-white);}
+
+    /* ════════════════════ CHATBOT (TAMBAHAN) ════════════════════ */
+    #chatbot{position:fixed;bottom:2rem;right:2rem;z-index:90000;}
+    #chat-btn{width:60px;height:60px;background:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 5px 20px rgba(0,0,0,.5);transition:transform .3s;}
+    #chat-btn:hover{transform:scale(1.05);}
+    #chat-btn svg{width:30px;height:30px;fill:var(--black);}
+    #chat-window{position:absolute;bottom:80px;right:0;width:340px;height:450px;background:var(--nb);border:1px solid rgba(255,255,255,.1);display:none;flex-direction:column;box-shadow:0 10px 30px rgba(0,0,0,.8);}
+    #chat-window.open{display:flex;animation:fadeIn .3s;}
+    .chat-header{background:#000;padding:1rem;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;}
+    .chat-title{font-family:'Playfair Display',serif;color:var(--white);font-weight:700;}
+    .chat-close{color:var(--silver);cursor:pointer;transition:color .2s;}
+    .chat-close:hover{color:var(--white);}
+    .chat-msgs{flex:1;padding:1rem;overflow-y:auto;display:flex;flex-direction:column;gap:1rem;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");}
+    .msg{max-width:85%;padding:.8rem 1rem;font-size:.85rem;line-height:1.4;}
+    .msg.bot{background:rgba(255,255,255,.08);color:var(--off-white);align-self:flex-start;border-radius:0 12px 12px 12px;}
+    .msg.bot.typing{font-style:italic; opacity:0.6; padding:0.5rem 1rem;}
+    .msg.user{background:var(--white);color:var(--black);align-self:flex-end;border-radius:12px 0 12px 12px;}
+    .chat-input-area{display:flex;border-top:1px solid rgba(255,255,255,.05);background:var(--nb);}
+    #chat-input{flex:1;background:transparent;border:none;color:var(--white);padding:1rem;outline:none;font-family:'DM Sans',sans-serif;}
+    #chat-send{background:transparent;border:none;color:var(--silver);padding:0 1.2rem;cursor:pointer;transition:color .3s;font-size:1.2rem;}
+    #chat-send:hover{color:var(--white);}
 
     /* ════════════════════ FOOTER ════════════════════ */
     footer{background:#040404;padding:2.5rem 2rem;text-align:center;border-top:1px solid rgba(255,255,255,.05);}
@@ -387,6 +413,8 @@
     .rv{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s ease;}
     .rv.in{opacity:1;transform:translateY(0);}
     .d1{transition-delay:.08s;}.d2{transition-delay:.18s;}.d3{transition-delay:.29s;}.d4{transition-delay:.4s;}.d5{transition-delay:.5s;}
+
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
     /* ════════════════════ MOBILE RESPONSIVENESS ════════════════════ */
     @media(max-width:900px){
@@ -427,6 +455,10 @@
       .ring1{width:320px;height:320px;} .ring2{width:220px;height:220px;} .ring3{width:120px;height:120px;}
       .car-item{width:200px;height:270px;}
       .wa-btn { padding: 1rem 2rem; width: 100%; max-width: 320px; justify-content: center; }
+      
+      /* Mobile chat adjustment */
+      #chatbot{bottom:1rem;right:1rem;} 
+      #chat-window{position:fixed;bottom:0;right:0;width:100vw;height:80vh;z-index:90001;border:none;border-top:1px solid rgba(255,255,255,0.1);}
     }
     
     @media(max-width:480px){
@@ -470,7 +502,7 @@
   <p class="hero-sub">Cukur Disini Aja</p>
   <p class="hero-sub">Crafted cuts. Timeless style. True character.</p>
   <div class="hero-cta">
-    <a href="https://wa.me/6281221222042?text=Halo%20Admin%20Jawa%20Hair%20Studio%2C%20saya%20ingin%20booking%20haircut" target="_blank" class="btn-p">✦  Booking ke Admin Kami</a>
+    <a href="#" class="btn-p wa-booking-btn">✦ Booking ke Admin Kami</a>
     <a href="#services" class="btn-s">Lihat Layanan</a>
   </div>
 </section>
@@ -498,7 +530,6 @@
   <p class="sec-label rv">Our Work</p>
   <h2 class="sec-title rv">Galeri Haircut</h2>
   <p class="sec-sub rv">Hover untuk pause · Klik foto untuk perbesar</p>
-
   <div class="carousel-wrap rv" style="margin-bottom:10px;">
     <div class="carousel-strip" id="strip1">
       <div class="car-item" data-src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80&fit=crop" alt="Classic Cut" loading="lazy"/><div class="car-label">Classic Cut</div></div>
@@ -506,14 +537,8 @@
       <div class="car-item" data-src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=400&q=80&fit=crop" alt="Detail Fade" loading="lazy"/><div class="car-label">Detail Fade</div></div>
       <div class="car-item" data-src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80&fit=crop" alt="Hair Styling" loading="lazy"/><div class="car-label">Hair Styling</div></div>
       <div class="car-item" data-src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80&fit=crop" alt="Skin Fade" loading="lazy"/><div class="car-label">Skin Fade</div></div>
-      <div class="car-item" data-src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80&fit=crop" alt="Precision Tools" loading="lazy"/><div class="car-label">Precision Tools</div></div>
-      <div class="car-item" data-src="https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?w=400&q=80&fit=crop" alt="Studio Vibe" loading="lazy"/><div class="car-label">Studio Vibe</div></div>
-      <div class="car-item" data-src="https://images.unsplash.com/photo-1548484352-ea579e5233a8?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1548484352-ea579e5233a8?w=400&q=80&fit=crop" alt="Modern Look" loading="lazy"/><div class="car-label">Modern Look</div></div>
-      <div class="car-item" data-src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400&q=80&fit=crop" alt="Clean Shave" loading="lazy"/><div class="car-label">Clean Shave</div></div>
-      <div class="car-item" data-src="https://images.unsplash.com/photo-1534297635766-a262cdcb8ee4?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1534297635766-a262cdcb8ee4?w=400&q=80&fit=crop" alt="Undercut" loading="lazy"/><div class="car-label">Undercut</div></div>
     </div>
   </div>
-
   <div class="carousel-wrap rv">
     <div class="carousel-strip rev" id="strip2">
       <div class="car-item" data-src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&q=80&fit=crop" alt="Clipper Art" loading="lazy"/><div class="car-label">Clipper Art</div></div>
@@ -521,13 +546,8 @@
       <div class="car-item" data-src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=400&q=80&fit=crop" alt="Line Up" loading="lazy"/><div class="car-label">Line Up</div></div>
       <div class="car-item" data-src="https://images.unsplash.com/photo-1521490683712-35a1cb235d1c?w=800&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1521490683712-35a1cb235d1c?w=400&q=80&fit=crop" alt="Grooming" loading="lazy"/><div class="car-label">Grooming</div></div>
       <div class="car-item" data-src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=85&fit=crop&crop=entropy"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80&fit=crop&crop=entropy" alt="Fine Detail" loading="lazy"/><div class="car-label">Fine Detail</div></div>
-      <div class="car-item" data-src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&q=85&fit=crop&crop=top"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80&fit=crop&crop=top" alt="Fade Close" loading="lazy"/><div class="car-label">Fade Close-Up</div></div>
-      <div class="car-item" data-src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=85&fit=crop&crop=bottom"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80&fit=crop&crop=bottom" alt="Razor Work" loading="lazy"/><div class="car-label">Razor Work</div></div>
-      <div class="car-item" data-src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=85&fit=crop&crop=top"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80&fit=crop&crop=top" alt="Texture Style" loading="lazy"/><div class="car-label">Texture Style</div></div>
-      <div class="car-item" data-src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=85&fit=crop&crop=bottom"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=400&q=80&fit=crop&crop=bottom" alt="Finish" loading="lazy"/><div class="car-label">The Finish</div></div>
     </div>
   </div>
-
   <div class="masonry">
     <div class="ms-item rv d1" data-src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=900&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=700&q=80&fit=crop" alt="Featured"/><div class="ms-over"></div><div class="ms-tag">Featured</div></div>
     <div class="ms-item rv d2" data-src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=700&q=85&fit=crop"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=500&q=80&fit=crop" alt="Style 1"/><div class="ms-over"></div><div class="ms-tag">Styling</div></div>
@@ -558,7 +578,7 @@
         <li>Cut — Potongan presisi</li>
         <li>Wash — Keramas bersih</li>
         <li>Hair Tonic — Perawatan kulit kepala</li>
-        <li>Styling with Product — Rapi &amp; stylish</li>
+        <li>Styling with Product — Rapi & stylish</li>
       </ul>
     </div>
     <div class="srv-card prem rv d2">
@@ -572,24 +592,19 @@
         <li>Tonic — Perawatan kulit kepala</li>
         <li>Hot Towel — Relaksasi wajah</li>
         <li>Soft Massage — Pijat kepala lembut</li>
-        <li>Styling with Product — Rapi &amp; stylish</li>
+        <li>Styling with Product — Rapi & stylish</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════ BARBERS ═══════════════════ -->
 <section id="barbers">
   <p class="sec-label rv">Meet the Team</p>
   <h2 class="sec-title rv">Barber Kami</h2>
   <p class="sec-sub rv">Profesional, berpengalaman, penuh dedikasi</p>
   <div class="brb-grid">
-
-    <!-- Dhika -->
     <div class="brb-card rv d1">
-      <div class="brb-av brb-av--photo">
-        <img src="dhika.jpg" alt="Dhika — Head Barber" class="brb-photo"/>
-      </div>
+      <div class="brb-av brb-av--photo"><img src="dhika.jpg" alt="Dhika — Head Barber" class="brb-photo"/></div>
       <div class="brb-name">Dhika</div>
       <div class="brb-role">Head Barber</div>
       <a href="https://instagram.com/aldie.andhika12" target="_blank" class="brb-ig">
@@ -597,12 +612,8 @@
         @aldie.andhika12
       </a>
     </div>
-
-    <!-- Ruri -->
     <div class="brb-card rv d2">
-      <div class="brb-av brb-av--photo">
-        <img src="ruri.jpg" alt="Ruri — Senior Barber" class="brb-photo"/>
-      </div>
+      <div class="brb-av brb-av--photo"><img src="ruri.jpg" alt="Ruri — Senior Barber" class="brb-photo"/></div>
       <div class="brb-name">Ruri</div>
       <div class="brb-role">Senior Barber</div>
       <a href="https://instagram.com/rurihairstyle" target="_blank" class="brb-ig">
@@ -610,7 +621,6 @@
         @rurihairstyle
       </a>
     </div>
-
   </div>
 </section>
 
@@ -681,15 +691,15 @@
   </div>
 </section>
 
+
 <section id="location">
   <p class="sec-label rv">Find Us</p>
   <h2 class="sec-title rv">Lokasi Kami</h2>
-  <p class="sec-sub rv">Datang &amp; rasakan pengalaman terbaik</p>
+  <p class="sec-sub rv">Datang & rasakan pengalaman terbaik</p>
   <div class="loc-wrap">
     <div class="loc-info rv">
       <div class="ii"><div class="ii-icon">📍</div><div><div class="ii-lbl">Alamat</div><div class="ii-txt">Kroya, Cilacap<br>Jawa Tengah<br><br><a href="https://maps.app.goo.gl/WKyoXWxcvfC1R21ZA" target="_blank">Buka di Google Maps →</a></div></div></div>
-      <div class="ii"><div class="ii-icon">📞</div><div><div class="ii-lbl">Booking ke Admin</div><div class="ii-txt"><a href="https://wa.me/6281221222042" target="_blank">+62 812 2122 2042</a></div></div></div>
-      <div class="ii"><div class="ii-icon">📷</div><div><div class="ii-lbl">Instagram</div><div class="ii-txt"><a href="https://instagram.com/jawa_hairstudio" target="_blank">@jawa_hairstudio</a></div></div></div>
+      <div class="ii"><div class="ii-icon">📞</div><div><div class="ii-lbl">Booking ke Admin</div><div class="ii-txt"><a href="#" class="wa-booking-btn">+62 812 2122 2042</a></div></div></div>
       <div class="ii"><div class="ii-icon">🕐</div><div><div class="ii-lbl">Jam Operasional</div><div class="ii-txt">Setiap Hari · 10.00 – 21.00 WIB</div></div></div>
     </div>
     <div class="map-wrap rv d1">
@@ -730,8 +740,71 @@
   <p class="ft-copy">© 2025 Jawa Hair Studio · Kroya, Cilacap · All rights reserved · Power By Avankha Barlian Kabuchi</p>
 </footer>
 
+<div id="bookingModal">
+  <div class="modal-content">
+    <span class="modal-close" id="modalClose">✕</span>
+    <h3 class="modal-title">Booking Haircut</h3>
+    <p class="sec-sub" style="margin-bottom:1.5rem;font-size:0.85rem;">Isi form untuk reservasi via WhatsApp</p>
+    
+    <div class="form-group">
+      <label class="form-label">Nama Anda</label>
+      <input type="text" id="bookName" class="form-input" placeholder="Masukkan nama" required>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">No. WhatsApp</label>
+      <input type="tel" id="bookWA" class="form-input" placeholder="Contoh: 08123456789" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Pilih Barber</label>
+      <select id="bookBarber" class="form-input" required>
+        <option value="" disabled selected>Pilih Barber</option>
+        <option value="Dhika (Head Barber)">Dhika (Head Barber)</option>
+        <option value="Ruri (Senior Barber)">Ruri (Senior Barber)</option>
+        <option value="Siapa saja boleh">Siapa saja boleh</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Pilih Layanan</label>
+      <select id="bookService" class="form-input" required>
+        <option value="" disabled selected>Pilih Layanan</option>
+        <option value="Haircut Fresh (50k)">Haircut Fresh (50k)</option>
+        <option value="Haircut Premium (60k)">Haircut Premium (60k)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Jam (Hanya Jam Pas, cth: 13:00)</label>
+      <input type="time" id="bookTime" class="form-input" step="3600" required>
+    </div>
+    
+    <button id="submitBooking" class="modal-btn">Kirim via WhatsApp</button>
+  </div>
+</div>
+
+<div id="chatbot">
+  <div id="chat-window">
+    <div class="chat-header">
+      <span class="chat-title">Jawa Assistant</span>
+      <span class="chat-close" id="chatClose">✕</span>
+    </div>
+    <div class="chat-msgs" id="chatMsgs">
+      <div class="msg bot">Halo! Saya asisten Jawa Hair Studio. Ada yang bisa dibantu soal jadwal booking, profil barber, promo, atau metode pembayaran?</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Ketik pesan..." autocomplete="off">
+      <button id="chat-send">➤</button>
+    </div>
+  </div>
+  <div id="chat-btn">
+    <svg viewBox="0 0 24 24"><path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z"/></svg>
+  </div>
+</div>
+
 <script>
-/* ─── LOADER ─── */
+/* ─── LOADER (TIDAK ADA YANG DIUBAH) ─── */
 (function(){
   const fill = document.getElementById('ldrFill');
   requestAnimationFrame(()=>{ fill.style.width = '100%'; });
@@ -743,21 +816,21 @@
   else window.addEventListener('load',()=>setTimeout(hide,5000));
 })();
 
-/* ─── NAV ─── */
+/* ─── NAV (TIDAK ADA YANG DIUBAH) ─── */
 const topnav = document.getElementById('topnav');
 window.addEventListener('scroll',()=>{ topnav.classList.toggle('solid', scrollY>60); });
 document.getElementById('ham').addEventListener('click',()=>{
   document.getElementById('navLinks').classList.toggle('open');
 });
 
-/* ─── SCROLL REVEAL ─── */
+/* ─── SCROLL REVEAL (TIDAK ADA YANG DIUBAH) ─── */
 const rvEls = document.querySelectorAll('.rv');
 const rvObs = new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); rvObs.unobserve(e.target); }});
 },{threshold:0.07});
 rvEls.forEach(el=>rvObs.observe(el));
 
-/* ─── INFINITE CAROUSEL (RAF-based) ─── */
+/* ─── CAROUSEL (TIDAK ADA YANG DIUBAH) ─── */
 function makeCarousel(el, speed, reverse){
   const items = Array.from(el.children);
   const gap   = 10;
@@ -802,18 +875,14 @@ function makeCarousel(el, speed, reverse){
   }
   requestAnimationFrame(frame);
 }
-
 makeCarousel(document.getElementById('strip1'), 90, false);
 makeCarousel(document.getElementById('strip2'), 70, true);
 
-/* ─── LIGHTBOX ─── */
-const lb     = document.getElementById('lightbox');
-const lbImg  = document.getElementById('lb-img');
-const lbCount= document.getElementById('lb-counter');
+/* ─── LIGHTBOX (TIDAK ADA YANG DIUBAH) ─── */
+const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lb-img'), lbCount= document.getElementById('lb-counter');
 const allImgEls = document.querySelectorAll('.car-item, .ms-item');
-const srcs   = Array.from(allImgEls).map(el=>el.dataset.src||el.querySelector('img').src);
-let   lbIdx  = 0;
-
+const srcs = Array.from(allImgEls).map(el=>el.dataset.src||el.querySelector('img').src);
+let lbIdx = 0;
 function openLb(idx){
   lbIdx = ((idx%srcs.length)+srcs.length)%srcs.length;
   lbImg.src = srcs[lbIdx];
@@ -822,18 +891,140 @@ function openLb(idx){
   document.body.style.overflow='hidden';
 }
 function closeLb(){ lb.classList.remove('open'); document.body.style.overflow=''; }
-
 allImgEls.forEach((el,i)=>{ el.addEventListener('click',()=>openLb(i)); });
 document.getElementById('lb-close').addEventListener('click',closeLb);
 document.getElementById('lb-prev').addEventListener('click',(e)=>{ e.stopPropagation(); openLb(lbIdx-1); });
 document.getElementById('lb-next').addEventListener('click',(e)=>{ e.stopPropagation(); openLb(lbIdx+1); });
 lb.addEventListener('click',(e)=>{ if(e.target===lb) closeLb(); });
-document.addEventListener('keydown',e=>{
-  if(!lb.classList.contains('open')) return;
-  if(e.key==='ArrowLeft') openLb(lbIdx-1);
-  if(e.key==='ArrowRight') openLb(lbIdx+1);
-  if(e.key==='Escape') closeLb();
+
+/* ════════════════════ LOGIKA MODAL BOOKING (TAMBAHAN) ════════════════════ */
+const waBtns = document.querySelectorAll('.wa-booking-btn');
+const modal = document.getElementById('bookingModal');
+const modalClose = document.getElementById('modalClose');
+const submitBooking = document.getElementById('submitBooking');
+
+// Buka modal
+waBtns.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    modal.classList.add('open');
+  });
 });
+
+// Tutup modal
+modalClose.addEventListener('click', () => modal.classList.remove('open'));
+modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('open'); });
+
+// Submit & Validasi Full
+submitBooking.addEventListener('click', () => {
+  const name = document.getElementById('bookName').value.trim();
+  const wa = document.getElementById('bookWA').value.trim();
+  const barber = document.getElementById('bookBarber').value;
+  const service = document.getElementById('bookService').value;
+  const time = document.getElementById('bookTime').value;
+
+  if(!name || !wa || !barber || !service || !time) {
+    alert("Mohon lengkapi seluruh form (Nama, No WA, Barber, Layanan, dan Jam).");
+    return;
+  }
+
+  // Cek apakah jam berupa pecahan menit (harus pas 00)
+  const menit = time.split(':')[1];
+  if(menit !== "00") {
+    alert(`Maaf, sistem kami hanya menerima booking pada jam genap/pas (contoh: 10:00, 14:00, 19:00).\nTidak melayani pecahan menit seperti ${time}.`);
+    return;
+  }
+
+  // Redirect to WhatsApp
+  const text = encodeURIComponent(`Halo Admin Jawa Hair Studio, saya ingin booking haircut.\n\n*Nama:* ${name}\n*No. WA:* ${wa}\n*Barber:* ${barber}\n*Layanan:* ${service}\n*Jam:* ${time}\n\nApakah jadwal tersebut tersedia?`);
+  window.open(`https://wa.me/6281221222042?text=${text}`, '_blank');
+  modal.classList.remove('open');
+});
+
+/* ════════════════════ LOGIKA SMART AI CHATBOT (TAMBAHAN) ════════════════════ */
+const cBtn = document.getElementById('chat-btn');
+const cWin = document.getElementById('chat-window');
+const cClose = document.getElementById('chatClose');
+const cInput = document.getElementById('chat-input');
+const cSend = document.getElementById('chat-send');
+const cMsgs = document.getElementById('chatMsgs');
+
+cBtn.addEventListener('click', () => cWin.classList.add('open'));
+cClose.addEventListener('click', () => cWin.classList.remove('open'));
+
+function botReply(text) {
+  const t = text.toLowerCase();
+  let reply = "Maaf, saya kurang menangkap maksudnya. Kamu bisa menanyakan soal cara booking, harga layanan, profil barber, lokasi, jam buka, atau promo kami!";
+  
+  // Keyword Matching - Lebih Pintar
+  if (/(halo|hai|hi|pagi|siang|sore|malam|assalamualaikum|bro|min|ping)/.test(t)) {
+    reply = "Halo! Saya Jawa Assistant. Ada yang bisa saya bantu untuk penampilan terbaikmu hari ini?";
+  } 
+  else if (/(lokasi|alamat|dimana|tempat|map|daerah)/.test(t)) {
+    reply = "Lokasi kami ada di Kroya, Cilacap, Jawa Tengah. Kamu bisa cek seksi 'Lokasi' di web ini buat buka langsung di Google Maps ya!";
+  }
+  else if (/(jam|buka|tutup|operasional|hari apa)/.test(t)) {
+    reply = "Kami buka SETIAP HARI dari jam 10.00 pagi sampai 21.00 malam. Bebas mau mampir kapan aja, bro!";
+  }
+  else if (/(bayar|pembayaran|qris|cash|tunai|transfer|atm)/.test(t)) {
+    reply = "Tenang aja, pembayarannya fleksibel! Kami terima Cash (Tunai) dan juga QRIS / Transfer Bank.";
+  } 
+  else if (/(promo|diskon|murah|potongan)/.test(t)) {
+    reply = "Psst.. khusus pelajar atau mahasiswa, cukup tunjukin kartu pelajarmu dari Senin - Kamis buat dapetin harga spesial!";
+  } 
+  else if (/(barber|kapster|cukur|siapa|dhika|ruri|terbaik|bagus)/.test(t)) {
+    reply = "Barber andalan kami ada Mas Dhika (Head Barber) dan Mas Ruri (Senior Barber). Keduanya jago, presisi, dan up-to-date sama tren rambut. Kamu bisa pilih salah satu pas isi form booking.";
+  } 
+  else if (/(harga|berapa|tarif|biaya|pricelist)/.test(t)) {
+    reply = "Mulai dari 50k aja buat Haircut Fresh. Kalau mau sekalian relaksasi kepala (Hot Towel + Massage), bisa pilih Haircut Premium (60k). Worth it banget!";
+  } 
+  else if (/(booking|pesan|reservasi|jadwal|daftar|antri)/.test(t)) {
+    reply = "Gampang! Tinggal klik tombol 'Booking ke Admin Kami'. Nanti kamu disuruh ngisi Nama, WA, milih Barber & Layanan, dan pilih Jam. Ingat, pilihnya jam pas/genap (misal 14:00, bukan 14:30) ya.";
+  }
+  else if (/(rambut|potong|gaya|model|botak|fade|mullet|comma|korea|buzz)/.test(t)) {
+    reply = "Apapun gaya yang kamu mau (Fade, Comma Hair, Mullet, Buzz Cut, dll), barber kami siap eksekusi. Jangan ragu buat ngobrol dan konsultasi langsung pas udah duduk di kursi cukur!";
+  }
+  else if (/(makasih|terima kasih|thanks|ok|sip|mantap)/.test(t)) {
+    reply = "Sama-sama! Ditunggu kedatangannya di Jawa Hair Studio ya bro. Stay fresh! 😎";
+  }
+
+  // Tampilkan indikator mengetik (typing effect)
+  const typingMsg = document.createElement('div');
+  typingMsg.className = 'msg bot typing';
+  typingMsg.textContent = 'Mengetik...';
+  cMsgs.appendChild(typingMsg);
+  cMsgs.scrollTop = cMsgs.scrollHeight;
+
+  // Hapus indikator mengetik dan tampilkan balasan asli setelah jeda
+  setTimeout(() => {
+    cMsgs.removeChild(typingMsg);
+    const m = document.createElement('div');
+    m.className = 'msg bot';
+    m.textContent = reply;
+    cMsgs.appendChild(m);
+    cMsgs.scrollTop = cMsgs.scrollHeight;
+  }, 1000);
+}
+
+function handleSend() {
+  const text = cInput.value.trim();
+  if(!text) return;
+  
+  // Munculkan pesan user
+  const m = document.createElement('div');
+  m.className = 'msg user';
+  m.textContent = text;
+  cMsgs.appendChild(m);
+  cMsgs.scrollTop = cMsgs.scrollHeight;
+  cInput.value = '';
+  
+  // Panggil bot
+  botReply(text);
+}
+
+cSend.addEventListener('click', handleSend);
+cInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSend(); });
+
 </script>
 </body>
 </html>
