@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
   <title>Jawa Hair Studio</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
@@ -315,11 +315,7 @@
     /* ════════════════════ TIPS & TRICKS ════════════════════ */
     #tips{background:var(--black);}
     .tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;margin:0 auto;}
-    .tip{
-      background:var(--nb);border:1px solid rgba(255,255,255,.06);
-      padding:2rem 1.8rem;position:relative;overflow:hidden;
-      transition:transform .35s,border-color .3s;cursor:default;
-    }
+    .tip{background:var(--nb);border:1px solid rgba(255,255,255,.06);padding:2rem 1.8rem;position:relative;overflow:hidden;transition:transform .35s,border-color .3s;cursor:default;}
     .tip:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.18);}
     .tip::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1.5px;background:linear-gradient(to right,transparent,rgba(255,255,255,.35),transparent);transform:scaleX(0);transition:.4s;}
     .tip:hover::after{transform:scaleX(1);}
@@ -329,14 +325,13 @@
     .tip-title{font-family:'Playfair Display',serif;font-size:1.18rem;font-weight:700;color:var(--white);margin-bottom:.75rem;line-height:1.35;}
     .tip-body{font-size:.86rem;color:rgba(160,160,160,.9);line-height:1.75;}
     .tip-tag{display:inline-block;margin-top:1.1rem;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;border:1px solid rgba(255,255,255,.12);padding:.22rem .68rem;color:rgba(160,160,160,.8);}
-    /* featured */
     .tip.feat{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;gap:0;background:#0d0d0d;border-color:rgba(255,255,255,.1);}
     .tip.feat .tip-img-wrap{overflow:hidden;}
     .tip.feat .tip-img{width:100%;height:100%;object-fit:cover;filter:grayscale(15%);transition:filter .5s,transform .5s;}
     .tip.feat:hover .tip-img{filter:grayscale(0%);transform:scale(1.04);}
     .tip.feat .tip-content{padding:2rem 1.8rem;display:flex;flex-direction:column;justify-content:center;}
     
-    /* ════════════════════ TESTIMONIALS (TAMBAHAN) ════════════════════ */
+    /* ════════════════════ TESTIMONIALS ════════════════════ */
     #testimonials{background:var(--nb);}
     .testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;max-width:1100px;margin:0 auto;}
     .testi-card{background:var(--black);padding:2.5rem 2rem;border:1px solid rgba(255,255,255,.05);position:relative;transition:transform .3s, border-color .3s;}
@@ -367,7 +362,7 @@
     .wa-btn{display:inline-flex;align-items:center;gap:.9rem;padding:1.15rem 2.9rem;background:#25D366;color:#fff;font-size:.9rem;font-weight:500;letter-spacing:.1em;text-decoration:none;box-shadow:0 4px 30px rgba(37,211,102,.18);transition:background .25s,transform .2s,box-shadow .25s;}
     .wa-btn:hover{background:#1fbe5c;transform:translateY(-3px);box-shadow:0 10px 40px rgba(37,211,102,.28);}
 
-    /* ════════════════════ BOOKING MODAL (TAMBAHAN) ════════════════════ */
+    /* ════════════════════ BOOKING MODAL ════════════════════ */
     #bookingModal{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(5px);}
     #bookingModal.open{display:flex;animation:fadeIn .3s;}
     .modal-content{background:var(--nb);border:1px solid rgba(255,255,255,.1);padding:2.5rem 2rem;max-width:420px;width:100%;position:relative;border-top:3px solid var(--white); max-height: 90vh; overflow-y: auto;}
@@ -382,7 +377,7 @@
     .modal-btn{width:100%;background:var(--white);color:var(--black);border:none;padding:1rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;margin-top:1rem;transition:background .3s;}
     .modal-btn:hover{background:var(--off-white);}
 
-    /* ════════════════════ CHATBOT (TAMBAHAN) ════════════════════ */
+    /* ════════════════════ CHATBOT ════════════════════ */
     #chatbot{position:fixed;bottom:2rem;right:2rem;z-index:90000;}
     #chat-btn{width:60px;height:60px;background:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 5px 20px rgba(0,0,0,.5);transition:transform .3s;}
     #chat-btn:hover{transform:scale(1.05);}
@@ -398,8 +393,13 @@
     .msg.bot{background:rgba(255,255,255,.08);color:var(--off-white);align-self:flex-start;border-radius:0 12px 12px 12px;}
     .msg.bot.typing{font-style:italic; opacity:0.6; padding:0.5rem 1rem;}
     .msg.user{background:var(--white);color:var(--black);align-self:flex-end;border-radius:12px 0 12px 12px;}
-    .chat-input-area{display:flex;border-top:1px solid rgba(255,255,255,.05);background:var(--nb);}
-    #chat-input{flex:1;background:transparent;border:none;color:var(--white);padding:1rem;outline:none;font-family:'DM Sans',sans-serif;}
+    
+    /* PERBAIKAN UNTUK MOBILE CHAT INPUT: tambah flex-shrink:0 agar tidak menyusut saat keyboard muncul */
+    .chat-input-area{display:flex;border-top:1px solid rgba(255,255,255,.05);background:var(--nb); flex-shrink: 0; min-height: 60px;}
+    
+    /* PERBAIKAN FONT-SIZE INPUT CHAT: 16px akan mencegah iOS Safari otomatis Zoom saat mulai mengetik */
+    #chat-input{flex:1;background:transparent;border:none;color:var(--white);padding:1rem;outline:none;font-family:'DM Sans',sans-serif; font-size: 16px;}
+    
     #chat-send{background:transparent;border:none;color:var(--silver);padding:0 1.2rem;cursor:pointer;transition:color .3s;font-size:1.2rem;}
     #chat-send:hover{color:var(--white);}
 
@@ -456,9 +456,20 @@
       .car-item{width:200px;height:270px;}
       .wa-btn { padding: 1rem 2rem; width: 100%; max-width: 320px; justify-content: center; }
       
-      /* Mobile chat adjustment */
+      /* PERBAIKAN CHATBOT MOBILE: Memakai dvh (Dynamic Viewport Height) agar tidak rusak saat keyboard muncul */
       #chatbot{bottom:1rem;right:1rem;} 
-      #chat-window{position:fixed;bottom:0;right:0;width:100vw;height:80vh;z-index:90001;border:none;border-top:1px solid rgba(255,255,255,0.1);}
+      #chat-window{
+        position:fixed;
+        bottom:0;
+        right:0;
+        left:0;
+        width:100%;
+        height:75dvh; /* dvh sangat membantu menghindari keyboard HP yang menutupi layar */
+        z-index:90001;
+        border:none;
+        border-top:1px solid rgba(255,255,255,0.1);
+        border-radius:15px 15px 0 0;
+      }
     }
     
     @media(max-width:480px){
@@ -626,7 +637,7 @@
 
 <section id="tips">
   <p class="sec-label rv">Hair Knowledge</p>
-  <h2 class="sec-title rv">Tips &amp; Trik Rambut</h2>
+  <h2 class="sec-title rv">Tips & Trik Rambut</h2>
   <p class="sec-sub rv">Dari barber kami untuk kamu — perawatan terbaik setiap hari</p>
   <div class="tips-grid">
     <div class="tip feat rv">
@@ -650,47 +661,37 @@
       <div class="tip-cat">Setelah Potong</div>
       <span class="tip-icon">✂️</span>
       <div class="tip-title">Kapan Waktu Ideal Potong Rambut?</div>
-      <div class="tip-body">Idealnya setiap 3–4 minggu untuk fade &amp; undercut agar garis tetap rapi. Untuk medium-length cukup 5–6 minggu. Jangan tunggu terlalu lama — rambut rapi = penampilan prima.</div>
+      <div class="tip-body">Idealnya setiap 3–4 minggu untuk fade & undercut agar garis tetap rapi. Untuk medium-length cukup 5–6 minggu. Jangan tunggu terlalu lama — rambut rapi = penampilan prima.</div>
       <span class="tip-tag">Grooming</span>
-    </div>
-    <div class="tip rv d3">
-      <div class="tip-cat">Produk Rambut</div>
-      <span class="tip-icon">🪮</span>
-      <div class="tip-title">Perbedaan Pomade, Clay &amp; Wax</div>
-      <div class="tip-body"><strong style="color:var(--off-white)">Pomade:</strong> kilap tinggi, hold medium. <strong style="color:var(--off-white)">Clay:</strong> matte, hold kuat, cocok untuk textured style. <strong style="color:var(--off-white)">Wax:</strong> fleksibel, gaya natural. Pilih sesuai karakter rambut kamu!</div>
-      <span class="tip-tag">Products</span>
-    </div>
-    <div class="tip rv d4">
-      <div class="tip-cat">Kulit Kepala</div>
-      <span class="tip-icon">🌿</span>
-      <div class="tip-title">Atasi Ketombe Secara Alami</div>
-      <div class="tip-body">Pijat kulit kepala dengan campuran minyak kelapa + beberapa tetes tea tree oil sebelum keramas. Diamkan 20 menit lalu bilas. Lakukan 2x seminggu untuk hasil optimal.</div>
-      <span class="tip-tag">Scalp Care</span>
-    </div>
-    <div class="tip rv d1">
-      <div class="tip-cat">Style Guide</div>
-      <span class="tip-icon">💇</span>
-      <div class="tip-title">Pilih Potongan Sesuai Bentuk Wajah</div>
-      <div class="tip-body"><strong style="color:var(--off-white)">Oval:</strong> cocok hampir semua gaya. <strong style="color:var(--off-white)">Bulat:</strong> pilih fade tinggi. <strong style="color:var(--off-white)">Kotak:</strong> coba textured crop. Konsultasikan langsung ke barber kami!</div>
-      <span class="tip-tag">Face Shape</span>
-    </div>
-    <div class="tip rv d2">
-      <div class="tip-cat">Pro Tip</div>
-      <span class="tip-icon">🔑</span>
-      <div class="tip-title">Rahasia Rambut Rapi Sepanjang Hari</div>
-      <div class="tip-body">Aplikasikan sedikit hair tonic setelah keramas &amp; blow dry sesuai arah yang diinginkan. Finishing dengan setting spray ringan — rambut akan tahan angin hingga malam hari.</div>
-      <span class="tip-tag">Pro Secret</span>
-    </div>
-    <div class="tip rv d3">
-      <div class="tip-cat">Tren 2025</div>
-      <span class="tip-icon">🔥</span>
-      <div class="tip-title">Gaya Rambut Paling Populer Saat Ini</div>
-      <div class="tip-body">Textured Fringe, Mid Fade dengan side part, dan Curly Crop sedang trending. Low-maintenance tapi tetap stylish. Tanyakan barber kami untuk referensi terkini!</div>
-      <span class="tip-tag">Trends 2025</span>
     </div>
   </div>
 </section>
 
+<section id="testimonials">
+  <p class="sec-label rv">Review</p>
+  <h2 class="sec-title rv">Apa Kata Mereka</h2>
+  <p class="sec-sub rv">Pengalaman asli dari pelanggan Jawa Hair Studio</p>
+  <div class="testi-grid">
+    <div class="testi-card rv d1">
+      <div class="testi-quote">“</div>
+      <div class="testi-text">Pelayanannya mantap! Baru kali ini cukur dapet massage yang bikin rileks banget. Tempatnya juga bersih dan estetik. Bakal jadi langganan.</div>
+      <div class="testi-author">Bima S.</div>
+      <div class="testi-role">Mahasiswa</div>
+    </div>
+    <div class="testi-card rv d2">
+      <div class="testi-quote">“</div>
+      <div class="testi-text">Fade-nya rapi banget, detailnya dapet. Mas Dhika pinter banget nyesuaiin sama bentuk kepala. Sangat recommended buat yang di daerah Kroya!</div>
+      <div class="testi-author">Andrean W.</div>
+      <div class="testi-role">Karyawan Swasta</div>
+    </div>
+    <div class="testi-card rv d3">
+      <div class="testi-quote">“</div>
+      <div class="testi-text">Suka sama vibe barbershop-nya. Nunggu juga nggak bosen. Barbers-nya asik diajak ngobrol dan tau banget tren rambut sekarang. Terbaik.</div>
+      <div class="testi-author">Fikri N.</div>
+      <div class="testi-role">Pelajar</div>
+    </div>
+  </div>
+</section>
 
 <section id="location">
   <p class="sec-label rv">Find Us</p>
@@ -713,21 +714,7 @@
   <h2 class="sec-title rv">Hubungi Kami</h2>
   <p class="sec-sub rv">Booking ke admin kami, tanya harga, atau sekadar ngobrol — kami siap!</p>
   <div class="divider rv"><div class="divider-line"></div><div class="divider-dot">✦</div><div class="divider-line"></div></div>
-  <div class="soc-links rv d1">
-    <a href="https://instagram.com/jawa_hairstudio" target="_blank" class="soc-btn">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-      @jawa_hairstudio
-    </a>
-    <a href="https://instagram.com/aldie.andhika12" target="_blank" class="soc-btn">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-      @aldie.andhika12
-    </a>
-    <a href="https://instagram.com/rurihairstyle" target="_blank" class="soc-btn">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-      @rurihairstyle
-    </a>
-  </div>
-  <a href="https://wa.me/6281221222042?text=Halo%20Admin%20Jawa%20Hair%20Studio%2C%20saya%20ingin%20booking%20haircut" target="_blank" class="wa-btn rv d2">
+  <a href="#" class="wa-btn rv d2 wa-booking-btn">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     Booking ke Admin Kami
   </a>
@@ -736,7 +723,6 @@
 <footer>
   <div class="ft-logo">Jawa Hair Studio</div>
   <p class="ft-tag">Cukur Disini Aja</p>
-  <p class="ft-tag">Crafted cuts. Timeless style.</p>
   <p class="ft-copy">© 2025 Jawa Hair Studio · Kroya, Cilacap · All rights reserved · Power By Avankha Barlian Kabuchi</p>
 </footer>
 
@@ -804,7 +790,7 @@
 </div>
 
 <script>
-/* ─── LOADER (TIDAK ADA YANG DIUBAH) ─── */
+/* ─── LOADER ─── */
 (function(){
   const fill = document.getElementById('ldrFill');
   requestAnimationFrame(()=>{ fill.style.width = '100%'; });
@@ -816,21 +802,21 @@
   else window.addEventListener('load',()=>setTimeout(hide,5000));
 })();
 
-/* ─── NAV (TIDAK ADA YANG DIUBAH) ─── */
+/* ─── NAV ─── */
 const topnav = document.getElementById('topnav');
 window.addEventListener('scroll',()=>{ topnav.classList.toggle('solid', scrollY>60); });
 document.getElementById('ham').addEventListener('click',()=>{
   document.getElementById('navLinks').classList.toggle('open');
 });
 
-/* ─── SCROLL REVEAL (TIDAK ADA YANG DIUBAH) ─── */
+/* ─── SCROLL REVEAL ─── */
 const rvEls = document.querySelectorAll('.rv');
 const rvObs = new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); rvObs.unobserve(e.target); }});
 },{threshold:0.07});
 rvEls.forEach(el=>rvObs.observe(el));
 
-/* ─── CAROUSEL (TIDAK ADA YANG DIUBAH) ─── */
+/* ─── CAROUSEL ─── */
 function makeCarousel(el, speed, reverse){
   const items = Array.from(el.children);
   const gap   = 10;
@@ -878,7 +864,7 @@ function makeCarousel(el, speed, reverse){
 makeCarousel(document.getElementById('strip1'), 90, false);
 makeCarousel(document.getElementById('strip2'), 70, true);
 
-/* ─── LIGHTBOX (TIDAK ADA YANG DIUBAH) ─── */
+/* ─── LIGHTBOX ─── */
 const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lb-img'), lbCount= document.getElementById('lb-counter');
 const allImgEls = document.querySelectorAll('.car-item, .ms-item');
 const srcs = Array.from(allImgEls).map(el=>el.dataset.src||el.querySelector('img').src);
@@ -897,13 +883,12 @@ document.getElementById('lb-prev').addEventListener('click',(e)=>{ e.stopPropaga
 document.getElementById('lb-next').addEventListener('click',(e)=>{ e.stopPropagation(); openLb(lbIdx+1); });
 lb.addEventListener('click',(e)=>{ if(e.target===lb) closeLb(); });
 
-/* ════════════════════ LOGIKA MODAL BOOKING (TAMBAHAN) ════════════════════ */
+/* ─── LOGIKA MODAL BOOKING ─── */
 const waBtns = document.querySelectorAll('.wa-booking-btn');
 const modal = document.getElementById('bookingModal');
 const modalClose = document.getElementById('modalClose');
 const submitBooking = document.getElementById('submitBooking');
 
-// Buka modal
 waBtns.forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -911,11 +896,9 @@ waBtns.forEach(btn => {
   });
 });
 
-// Tutup modal
 modalClose.addEventListener('click', () => modal.classList.remove('open'));
 modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('open'); });
 
-// Submit & Validasi Full
 submitBooking.addEventListener('click', () => {
   const name = document.getElementById('bookName').value.trim();
   const wa = document.getElementById('bookWA').value.trim();
@@ -928,20 +911,18 @@ submitBooking.addEventListener('click', () => {
     return;
   }
 
-  // Cek apakah jam berupa pecahan menit (harus pas 00)
   const menit = time.split(':')[1];
   if(menit !== "00") {
     alert(`Maaf, sistem kami hanya menerima booking pada jam genap/pas (contoh: 10:00, 14:00, 19:00).\nTidak melayani pecahan menit seperti ${time}.`);
     return;
   }
 
-  // Redirect to WhatsApp
   const text = encodeURIComponent(`Halo Admin Jawa Hair Studio, saya ingin booking haircut.\n\n*Nama:* ${name}\n*No. WA:* ${wa}\n*Barber:* ${barber}\n*Layanan:* ${service}\n*Jam:* ${time}\n\nApakah jadwal tersebut tersedia?`);
   window.open(`https://wa.me/6281221222042?text=${text}`, '_blank');
   modal.classList.remove('open');
 });
 
-/* ════════════════════ LOGIKA SMART AI CHATBOT (TAMBAHAN) ════════════════════ */
+/* ─── LOGIKA SMART AI CHATBOT ─── */
 const cBtn = document.getElementById('chat-btn');
 const cWin = document.getElementById('chat-window');
 const cClose = document.getElementById('chatClose');
@@ -949,14 +930,17 @@ const cInput = document.getElementById('chat-input');
 const cSend = document.getElementById('chat-send');
 const cMsgs = document.getElementById('chatMsgs');
 
-cBtn.addEventListener('click', () => cWin.classList.add('open'));
+cBtn.addEventListener('click', () => {
+    cWin.classList.add('open');
+    // Supaya langsung scroll ke bawah saat dibuka
+    cMsgs.scrollTop = cMsgs.scrollHeight; 
+});
 cClose.addEventListener('click', () => cWin.classList.remove('open'));
 
 function botReply(text) {
   const t = text.toLowerCase();
   let reply = "Maaf, saya kurang menangkap maksudnya. Kamu bisa menanyakan soal cara booking, harga layanan, profil barber, lokasi, jam buka, atau promo kami!";
   
-  // Keyword Matching - Lebih Pintar
   if (/(halo|hai|hi|pagi|siang|sore|malam|assalamualaikum|bro|min|ping)/.test(t)) {
     reply = "Halo! Saya Jawa Assistant. Ada yang bisa saya bantu untuk penampilan terbaikmu hari ini?";
   } 
@@ -988,14 +972,12 @@ function botReply(text) {
     reply = "Sama-sama! Ditunggu kedatangannya di Jawa Hair Studio ya bro. Stay fresh! 😎";
   }
 
-  // Tampilkan indikator mengetik (typing effect)
   const typingMsg = document.createElement('div');
   typingMsg.className = 'msg bot typing';
   typingMsg.textContent = 'Mengetik...';
   cMsgs.appendChild(typingMsg);
   cMsgs.scrollTop = cMsgs.scrollHeight;
 
-  // Hapus indikator mengetik dan tampilkan balasan asli setelah jeda
   setTimeout(() => {
     cMsgs.removeChild(typingMsg);
     const m = document.createElement('div');
@@ -1010,7 +992,6 @@ function handleSend() {
   const text = cInput.value.trim();
   if(!text) return;
   
-  // Munculkan pesan user
   const m = document.createElement('div');
   m.className = 'msg user';
   m.textContent = text;
@@ -1018,7 +999,6 @@ function handleSend() {
   cMsgs.scrollTop = cMsgs.scrollHeight;
   cInput.value = '';
   
-  // Panggil bot
   botReply(text);
 }
 
